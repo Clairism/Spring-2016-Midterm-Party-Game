@@ -1,0 +1,40 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <script language="javascript" type="text/javascript" src="camTest.js"></script>
+
+</head>
+
+<body>
+
+<canvas id="canvas" width="800" height="800"style="margin:50px;"></canvas>
+<video autoplay></video>
+<script>
+  var errorCallback = function(e) {
+    console.log('Reeeejected!', e);
+  };
+
+  navigator.getUserMedia  = navigator.getUserMedia ||
+                          navigator.webkitGetUserMedia ||
+                          navigator.mozGetUserMedia ||
+                          navigator.msGetUserMedia;
+
+var video = document.querySelector('video');
+
+if (navigator.getUserMedia) {
+  navigator.getUserMedia({audio: true, video: true}, function(stream) {
+    video.src = window.URL.createObjectURL(stream);
+  }, errorCallback);
+} 
+//else {
+//  video.src = 'somevideo.webm'; // fallback.
+//}
+</script>
+
+</body>
+</html>
+
+<video id="video" width="640" height="480" autoplay></video>
+<button id="snap">Snap Photo</button>
+<canvas id="canvas" width="640" height="480"></canvas>
