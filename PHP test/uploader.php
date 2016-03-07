@@ -3,6 +3,7 @@ define("UPLOAD_DIR", "uploads/");
 
 // show upload form
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
 ?>
 <em>Only GIF, JPG, and PNG files are allowed.</em>
 <form action="uploader.php" method="post" enctype="multipart/form-data">
@@ -11,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
  <input type="submit" value="Upload"/>
 </form>
 <?php
+
 }
 // process file upload
 else if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_FILES["myFile"])) {
