@@ -1,0 +1,26 @@
+
+
+body {
+	text-align: center;
+	color: white;
+	background-color: black;
+	border: 5px rgb(0,200,255) double;
+	padding-top: 50px;
+    padding-right: 30px;
+    padding-bottom: 200px;
+    padding-left: 80px;
+
+}
+
+
+h1 {
+    color: rgb(0,200,255);
+    font-size: 40px;
+}
+
+img {
+	margin: 10px;
+	max-width: 30%;
+	max-height: auto;
+	transform: translate(0, 50%)
+}

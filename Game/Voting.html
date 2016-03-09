@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jQuery click event</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+</head>
+
+<body>
+	<h1 id="title">Select the 5 Most Dirty Objects</h1>
+
+	<script type="text/javascript">
+
+		//display imgs from folder url
+		var folder = "uploads/";
+
+		$.ajax({
+			url : folder,
+			success: function (data) {
+				$(data).find("a").attr("href", function (i, val) {
+					if( val.match(/\.(jpe?g|png|gif)$/) ) { 
+						$("body").append( "<img src='"+ folder + val + "'>" );
+
+							//img click event
+							$("img").on("click", function () {
+//??remove the same img
+								$("img").removeClass("highlight");
+								$(this).addClass("highlight");
+
+							});
+						} 
+					});
+			}
+		});
+
+
+	</script>
+
+	<style>
+
+		img.highlight {
+			border: 8px rgb(25, 255, 0) ridge;
+		}
+
+	</style>
+
+	<p>	
+		<a id="voteFinished" href="story.html">See Your Story!</a>
+	</p>
+
+</body>
+</html>
