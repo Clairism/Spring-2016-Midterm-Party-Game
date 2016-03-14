@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jQuery click event</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+</head>
+
+<body>
+	<h1 id="title">Select 2 Soft Objects</h1>
+
+	<script type="text/javascript">
+		
+		//display imgs from folder url
+		var folder = "uploads/";
+		console.log("snapshot");
+
+
+
+		$.ajax({
+			url : folder,
+			success: function (data) {
+				//console.log("data", data);
+				$(data).find("a").attr("href", function (i, val) {
+					if( val.match(/\.(jpe?g|png|gif|JPG)$/) ) { 
+						//console.log(folder+val);
+						$("body").append( "<img src='"+ folder + val + "'>" );
+					}
+
+				});
+
+
+
+
+				var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
+
+				var voteName = 'votesForSoft'; // Change this value for each voting page
+				var imageLocation;
+				var imgVotes;
+				//img click event
+				$("img").on("click", function () {
+					//??remove the same img
+
+
+					var imgsrc = $(this).attr('src');
+					//console.log("img src before: ", imgsrc);
+					imgsrc = imgsrc.replace('uploads/','');
+					console.log("img src after: ", imgsrc);
+
+						//Find image's parent in firebase
+						//Note: If filename is not found in DB, this code will NOT throw an error, and no vote will be logged
+						clickedImg.orderByChild("filename").equalTo(imgsrc).on("child_added", function(snapshot) {
+						var ref = snapshot.ref();
+					    imageLocation = snapshot.key();
+
+					    console.log("Image Loc: " + imageLocation);
+
+					    imgVotes = clickedImg.child(imageLocation);
+
+						console.log(snapshot.key());
+						//console.log(ref.parent().key());
+
+					});
+
+					//console.log($(this));
+					$(this).toggleClass('highlight');
+
+					//pass $this into vote var
+					console.log("VN:" + voteName);
+					var votesForSoft = imgVotes.child(voteName);
+
+					//hightlight -- votes
+					if ( $(this).hasClass('highlight') ) {
+						votesForSoft.transaction(function (current_value) {
+							return (current_value || 0) + 1;
+						});
+					}else{
+						votesForSoft.transaction(function (current_value) {
+							if(current_value <= 0){
+								return current_value = 0;
+							}else{
+								return current_value - 1;
+							}
+						});
+
+					}
+				});
+			},
+            error: function(user,status,er) { 
+                console.log("error: "+user+" status: "+status+" er:"+er);
+            }
+		});
+
+
+	</script>
+
+	<style>
+
+		img.highlight {
+			border: 8px rgb(25, 255, 0) ridge;
+		}
+
+	</style>
+
+	<p>	
+		<a id="voteFinished" href="Story.html">See Your Story!</a>
+	</p>
+
+</body>
+</html>
+		
