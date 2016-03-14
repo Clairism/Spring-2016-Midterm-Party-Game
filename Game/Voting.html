@@ -9,80 +9,105 @@
 </head>
 
 <body>
-	<div id="waiting"> waiting for players to upload</div>
+	<div id="waiting"> 
+		<h1 id="title">Waiting for players to upload...</h1>
+	</div>
 
 	<div id="done">
 		<h1 id="title">Select the 5 Most Dirty Objects</h1>
 
 		<script type="text/javascript">
 
-		//imgs parent
-		var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/imgs/");
-		var imgVotes = clickedImg.child("imgVotes");
-		var votesForSilly = imgVotes.child('votesForSilly');
+			$("#done").hide();
 
+		//imgs parent
+		var imgs = new Firebase("https://incandescent-heat-4986.firebaseio.com/imgs/");
+		var imgVotes = imgs.child("imgVotes");
+		var votesForSilly = imgVotes.child("votesForSilly");
 
 		//display imgs from folder url
 		var folder = "uploads/";
 
-		$("#done").hide();
-
-
 		$.ajax({
 			url : folder,
 			success: function (data) { //loop
-				//console.log("data", data);
-				$(data).find("a").attr("href", function (i, val) {
-					if( val.match(/\.(jpe?g|png|gif|JPG)$/) ) { 
-						$("#done").append( "<img src='"+ folder + val + "'>" );
-						console.log("image count", i);
-					}
-					if (i >= 3){
-						$("#waiting").hide();
-						$("#done").show();
-					}
+			//console.log("data", data);
+			$(data).find("a").attr("href", function (i, val) {
+				if( val.match(/\.(jpe?g|png|gif|JPG)$/) ) { 
+					$("#done").append( "<img src='"+ folder + val + "'>" );
+					console.log("image count", i);
+				}
+				if (i >= 3){
+					$("#waiting").hide();
+					$("#done").show();
+				}
 
+			});
+
+			$("img").on("click", function () {
+				//img click event
+
+				//get img src
+				//console.log( "img src", $(this).attr('src'));
+				
+				$(this).toggleClass('highlight');
+
+				//push src test
+				// var pushImg = votesForSilly.push();
+				// pushImg.set({ 
+				//  "clicked": $(this).attr('src') 
+				//});
+
+				//hightlight -- votes
+				if ( $(this).hasClass('highlight') ) {
+
+					votesForSilly.transaction(function (current_value) {
+						return (current_value || 0) + 1;
+					});
+
+					// votesForSilly.child($(this).attr('src')).transaction(function (current_value) {
+					// 	return (current_value || 0) + 1;
+					// });
+
+				}else{
+					votesForSilly.transaction(function (current_value) {
+						if(current_value <= 0){
+							return current_value = 0;
+							//votesForSilly.child('$(this).attr('src')').remove();
+
+						}else{
+							return current_value - 1;
+						}
+					});
+
+					// votesForSillys.child($(this).attr('src')).transaction(function (current_value) {
+					// 	if(current_value = 0){
+					// 		votesForSilly.child($(this).attr('src')).remove();
+					// 	}else{
+					// 		return current_value - 1;
+					// 	}
+					// });
+
+				}
+					//$(this).addClass('clicked');
 				});
-
-				$("img").on("click", function () {
-					//img click event
-
-					//console.log($(this));
-					$(this).toggleClass('highlight');
-
-					//hightlight -- votes
-					if ( $(this).hasClass('highlight') ) {
-						votesForSilly.transaction(function (current_value) {
-							return (current_value || 0) + 1;
-						});
-					}else{
-						votesForSilly.transaction(function (current_value) {
-							if(current_value <= 0){
-								return current_value = 0;
-							}else{
-								return current_value - 1;
-							}
-						});
-
-					}
-					
-				});
-			}
-		});
-
-	</script>
-
-	<style>
-
-		img.highlight {
-			border: 8px rgb(25, 255, 0) ridge;
 		}
+	});
 
-	</style>
+</script>
 
-	<p>	
-		<a id="voteFinished" href="story.html">See Your Story!</a>
-	</p>
+<style>
+
+	img.highlight {
+		border: 8px rgb(25, 255, 0) ridge;
+	}
+
+</style>
+
+<p>	
+
+	<a id="voteFinished" href="story.html">See Your Story!</a>
+</p>
 </div>
 </body>
 </html>

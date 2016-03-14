@@ -18,21 +18,9 @@ h1 {
     font-size: 40px;
 }
 
-p{
-	color: rgb(255,255,0);
-	font-size: 30px;
-}
-
 img {
-	margin: 15px;
+	margin: 10px;
 	max-width: 30%;
 	max-height: auto;
 	transform: translate(0, 50%)
-}
-
-input{
-  display:block;
-}
-.madlib-output{
-  display:none;
 }
