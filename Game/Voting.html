@@ -18,6 +18,10 @@
 
 		//imgs parent
 		var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/imgs/");
+
+		var newpath = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
+		//Add code to loop through the database images instead of the folder path?
+
 		var imgVotes = clickedImg.child("imgVotes");
 		var votesForSilly = imgVotes.child('votesForSilly');
 
