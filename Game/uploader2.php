@@ -4,17 +4,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="style.css">
-
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+    <!-- <script src="//code.jquery.com/jquery-1.12.0.min.js"></script> -->
 </head>
+
 <body>
-<div id="done">
 
 <?php
 define("UPLOAD_DIR", "uploads/");
 
+
 // show upload form
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
 ?>
 <em>Only GIF, JPG, and PNG files are allowed.</em>
 <form action="uploader2.php" method="post" enctype="multipart/form-data">
@@ -35,9 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 </form>
 <?php
 }
+
+
 //echo $_FILES["myFile2"];
 // process file upload
-else if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_FILES["myFile"])) {
+else if ($_SERVER["REQUEST_METHOD"] == "POST" ) { //&& !empty($_FILES["myFile"])
     $myFile = $_FILES["myFile"];
     $myFile2 = $_FILES["myFile2"];
     $myFile3 = $_FILES["myFile3"];
@@ -45,7 +50,9 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_FILES["myFile"])) {
     $myFile5 = $_FILES["myFile5"];
     $myFile6 = $_FILES["myFile6"];
     if ($myFile["error"] !== UPLOAD_ERR_OK || $myFile2["error"] !== UPLOAD_ERR_OK  || $myFile3["error"] !== UPLOAD_ERR_OK  || $myFile4["error"] !== UPLOAD_ERR_OK  || $myFile5["error"] !== UPLOAD_ERR_OK  || $myFile6["error"] !== UPLOAD_ERR_OK) {
-        echo "<p>Go back and ensure 6 files are selected.</p>"; //<p><a href=uploader2.php>Go Back</a></p>
+        echo "<p>Go back and ensure 6 files are selected.</p>"; 
+        echo "<p><a href='uploader2.php'>Go Back</a></p>";
+
         exit;
     }
 
@@ -222,11 +229,58 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_FILES["myFile"])) {
     $success = move_uploaded_file($myFile6["tmp_name"], UPLOAD_DIR . $name6);
     if (!$success) {
         echo "<p>Unable to save file 6.</p>";
+
         exit;
     }
 
     // set proper permissions on the new files
     chmod(UPLOAD_DIR . $name6, 0644);
+
+    //*** Togo: Get userName from cookie
+    //Currently defaulting to player1 if it's not found
+    $userName = ($_SESSION['userName'] != '' ? $_SESSION['userName'] : 'player1');
+
+    //send filenames to firebase
+
+    ?>
+    <script type="text/javascript">
+
+    var ref = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
+
+    //*** Todo: Replace "player1" with userName from cookie
+    //var usersRef = ref.child("player1");
+    //usersRef.set({
+    ref.set({
+
+//****Todo: Replace "player1" with value userName from cookie inside of <?php ?> tags
+//Suggestion: User variable $userName to store value from cookie in PHP and us it here
+        <?php echo $userName ?>_image1:  {
+        filename: "<?php echo $name ?>",
+        player: "<?php echo $userName ?>"
+            },
+        <?php echo $userName ?>_image2: {
+        filename: "<?php echo $name2 ?>",
+        player: "<?php echo $userName ?>"
+            },
+        <?php echo $userName ?>_image3: {
+        filename: "<?php echo $name3 ?>",
+        player: "<?php echo $userName ?>"
+            },
+        <?php echo $userName ?>_image4: {
+        filename: "<?php echo $name4 ?>",
+        player: "<?php echo $userName ?>"
+            },
+        <?php echo $userName ?>_image5: {
+        filename: "<?php echo $name5 ?>",
+        player: "<?php echo $userName ?>"
+            },
+        <?php echo $userName ?>_image6: {
+        filename: "<?php echo $name6 ?>",
+        player: "<?php echo $userName ?>"
+            },
+    });
+    </script>
+    <?php
     
     //Attempt to display image
     echo "<p>Uploaded file saved as " . $name . ".</p>";
@@ -235,6 +289,8 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_FILES["myFile"])) {
     echo "<p>Uploaded file saved as " . $name4 . ".</p>";
     echo "<p>Uploaded file saved as " . $name5 . ".</p>";
     echo "<p>Uploaded file saved as " . $name6 . ".</p>";
+
+    echo "<br><p><a href='Voting.html'>Time to Vote! Click here to continue</a></p>";
 
       // $image = $_FILES["file"]["name"]; 
       //   $img = "upload/".$image;
@@ -245,7 +301,11 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_FILES["myFile"])) {
 }
 ?>
 
-    <a id="done" href="Voting.html">Time to Vote</a>
+<!--
+<div id = "done" style="display: none">
+    <a href="Voting.html">Time to Vote</a>
+</div>
+-->
 
 </body>
 </html>
