@@ -114,7 +114,7 @@
 	
 	userCount.once("value", function(snapshot) {
   		nextPlayer = snapshot.numChildren() + 1;
-  		console.log("NP: " + nextPlayer);
+  		//console.log("NP: " + nextPlayer);
 	});
 
   var userNames = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/<?php echo $userName ?>");
@@ -122,6 +122,7 @@
   userNames.set({
   	selfieName: "<?php echo $name ?>",
   	playernum: nextPlayer
+  
   });
 </script>
 
