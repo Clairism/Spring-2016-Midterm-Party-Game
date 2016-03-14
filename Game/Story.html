@@ -1,11 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 
 </head>
 <body>
-<h1>One Day</h1>
+
+	<script type="text/javascript">
+
+		// var madLibs = function() { 
+		// 	var storyDiv = document.getElementById("story"); 
+		// 	var name = document.getElementById("name").value; 
+		// 	var adjective = document.getElementById("adjective").value; 
+		// 	var noun = document.getElementById("noun").value; 
+		// 	storyDiv.innerHTML = name + " married a " + adjective + " " + noun + "... So weird!"; 
+		// }
+
+
+		// $(document).ready(function(){
+		// 	$('#lib-button').click(function(){
+		// 		madLibs();
+		// 	});
+		// })
+
+		$(function(){
+
+			var player1 = $('#player1'),
+			player2 = $('#player2'),
+			player3 = $('#player3'),
+			player4 = $('#player4');
+
+			var	dirty = $('#dirty'),
+			large = $('#large'),
+			ugly = $('#ugly'),
+			soft = $('#soft');
+
+			player1.keyup(function(){
+				$('#player1-output').text(player1.val());
+			})
+
+			player2.keyup(function(){
+				$('#player2-output').text(player2.val());
+			})
+
+			player3.keyup(function(){
+				$('#player3-output').text(player3.val());
+			})
+
+			player4.keyup(function(){
+				$('#player4-output').text(player4.val());
+			})
+
+			dirty.keyup(function(){
+				$('#dirty-output').text(dirty.val());
+			})
+
+			large.keyup(function(){
+				$('#large-output').text(large.val());
+			})
+
+			ugly.keyup(function(){
+				$('#ugly-output').text(ugly.val());
+			})
+
+			soft.keyup(function(){
+				$('#soft-output').text(soft.val());
+			})
+
+			  $('button').on('click', function(){
+    $('.madlib-output').toggle('fast');
+  })
+
+		})
+
+	</script>
+
+	<p>
+
+		<div class="madlib-wrapper">
+			<h1>One Day</h1>
+
+			<div class="input-container">
+				<input type="text" id="player1" placeholder="player1" />
+				<input type="text" id="player2" placeholder="player2" />
+				<input type="text" id="player3" placeholder="player3" />
+				<input type="text" id="player4" placeholder="player4" />
+				<input type="text" id="dirty" placeholder="dirty" />
+				<input type="text" id="large" placeholder="large" />
+				<input type="text" id="ugly" placeholder="ugly" />
+				<input type="text" id="soft" placeholder="soft" />
+
+				<button id="madlib-toggle">Madlib It!</button>
+			</div>
+
+			<p>
+			<!-- (dirty obj) -->
+			<span id="player1-output"></span> 's birthday party was a disaster.
+			<br /> It started going downhill when <span id="player2-output"></span> arrived, bringing a <span id="dirty-output"></span> as his/her gift. <br />
+
+			<br /><span id="player1-output"></span> had to pretend he/she liked it, even though it was the worst.<br />
+
+			<!-- (large obj) -->
+			<br />Then <span id="player3-output"></span> took over the party playlist and played nothing but Elton John. It infuriated <span id="player4-output"></span> and he/she threw a/an <span id="large-output"></span> at the stereo. Completely destroying both.<br />
+
+			<!-- (ugly obj) -->
+			<br /><span id="player1-output"></span> was especially looking forward to the cake. When the cake came out the bakery has drawn a/an <span id="ugly-output"></span> on it. What the fuck!<br />
+
+			<!-- (soft obj) -->
+			<br /><span id="player1-output"></span> clutched his/her favorite <span id="soft-output"></span> and cried.<br />
+
+		</p>
+	</div>
+
+</p>
 
 </body>
 </html>
