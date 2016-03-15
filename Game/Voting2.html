@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>jQuery click event</title>
+	<title>Voting for Silly</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
@@ -18,6 +18,45 @@
 		
 		//var imgVotes = clickedImg.child(imageLocation);
 
+		var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/")
+		//var votesForLarge = imgVotes.child('votesForLarge');
+		var voteName = 'VotesForSilly'; // Change this value for each voting page
+		var imageLocation;
+		var imgVotes;
+
+		//check for the most silly pic
+
+		clickedImg.once("value", function(snapshot){
+			var mostSilly = "";	
+			var highestvotes = 0;
+
+			snapshot.forEach(function(childSnapshot){
+
+				//var key = childSnapshot.key();
+						
+				var childData = childSnapshot.val();
+			
+				if (childData.VotesForSilly > highestvotes)
+				{
+					highestvotes = childData.VotesForSilly;
+					mostSilly = childData.filename;
+				}
+
+				//console.log(childData.filename, childData.VotesForSilly);
+
+				//childSnapshot.orderByValue().on("value", function(snapshot){
+				//	snapshot.forEach(function(data){
+				//		//console.log(data.key(), data.val());
+				//	});
+				//});
+
+			});
+
+			console.log(mostSilly , highestvotes);
+
+		});
+
+
 		$.ajax({
 			url : folder,
 			success: function (data) {
@@ -32,12 +71,6 @@
 
 				});
 
-
-				var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
-				//var votesForLarge = imgVotes.child('votesForLarge');
-				var voteName = 'VotesForSilly'; // Change this value for each voting page
-				var imageLocation;
-				var imgVotes;
 				//img click event
 				$("img").on("click", function () {
 					//MOVE IMAGE SEARCH HERE
@@ -58,8 +91,8 @@
 
 					    imgVotes = clickedImg.child(imageLocation);
 
-						console.log(snapshot.key());
-						//console.log(ref.parent().key());
+						console.log("snapshot ",snapshot.name());
+						//console.log(ref.parent().key())
 
 					});
 
@@ -91,6 +124,37 @@
                 console.log("error: "+user+" status: "+status+" er:"+er);
             }
 		});
+
+
+		//querying data
+
+		// clickedImg.orderByValue().on("value", function(snapshot) {
+		// 	snapshot.forEach(function(data) {
+		// 		console.log("data val:" + data.val());
+		// 	});
+		// });
+
+		// clickedImg.orderByChild(voteName).orderByValue().on("value", function(snapshot) {
+		// 	var ref = snapshot.ref();
+		//    imageLocation = snapshot.key();
+
+		// imgVotes = clickedImg.child(imageLocation);
+
+		//});
+
+		// clickedImg.orderByChild("VotesForSilly").limitToFirst(1).on("child_added", function(snapshot) {
+		//   console.log(snapshot.key());
+		// });
+
+		// var playerImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
+
+		//clickedImg.orderByValue().limitToFirst(1).on("value", function(snapshot) {
+		//   snapshot.forEach(function(data) {
+		//     console.log("data key: " + data.key() + " data value: " + data.val());
+		//   });
+		// });
+
+		//find by name
 
 
 	</script>

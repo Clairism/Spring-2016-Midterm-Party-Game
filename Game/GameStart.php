@@ -15,8 +15,8 @@
 	define("UPLOAD_DIR", "selfies/");
 	//show upload form
 	//if ($_SERVER["REQUEST_METHOD"] == "GET") {
- 	?>
-		<form action="GameStart.php" method="post" enctype="multipart/form-data">
+	?>
+	<form action="GameStart.php" method="post" enctype="multipart/form-data">
 
 		<?php 
 		if( isset($_SESSION['userName']))
@@ -36,9 +36,9 @@
 		<input type="file" name="selfie"/>
 		<br/>
 		<input type="submit" value="Upload"/>
-		</form>
+	</form>
 
-		<?php
+	<?php
 	//}
 // process file upload
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -101,32 +101,30 @@
 		echo "<p>Your User Name is " . $_SESSION["userName"] . ".</p>";
 		echo "<p>Uploaded selfie saved as " . $name . ".</p>";
 		echo "<br><p><a href='uploader2.php'>Play!</a></p>";
+		} //Close ElseIf Tag 
+		?> 
 
 
-	?>
-
-	<script type="text/javascript">
+		<script type="text/javascript">
 
   //save values to fb
   //*** Todo: Figure out why this variable is not getting populated from inside of snapshot function. Must get userNames.set to wait for results from userCount.once
   var nextPlayer = 0;
   var userCount = new Firebase("https://incandescent-heat-4986.firebaseio.com/users");
-	
-	userCount.once("value", function(snapshot) {
-  		nextPlayer = snapshot.numChildren() + 1;
-  		console.log("NP: " + nextPlayer);
-	});
-
   var userNames = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/<?php echo $userName ?>");
+
+  userCount.once("value", function(snapshot) {
+  	nextPlayer = snapshot.numChildren() + 1;
+  	console.log("NP: " + nextPlayer);
+  });
 
   userNames.set({
   	selfieName: "<?php echo $name ?>",
   	playernum: nextPlayer
   });
+
 </script>
 
-<?php } //Close ElseIf Tag ?> 
 
-	
 </body>
 </html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript">
+
+//paths to firebase which will get deleted for a new game
+var imagesRef = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
+var usersRef = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/");
+
+
+imagesRef.remove(); //wipe all children of images/
+usersRef.remove(); //wipe all children of users/
+
+
+
+
+var gamekey = new Firebase("https://incandescent-heat-4986.firebaseio.com/gamekey/"); 
+
+gamekey.transaction(function (current_value) {
+                            return (current_value || 0) + 1;
+});
+</script>
+</head>
+
+<body>
+
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+?>
+
+<form action="admin.php" method="post" enctype="multipart/form-data">
+
+ <br/>
+ <input type="submit" value="Reset Game - All files will be deleted!"/>
+
+</form>
+
+<?php
+}
+    else if ($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    $files = glob('uploads/*'); //find all files in uploads
+        foreach($files as $file){ //iterate files
+            if(is_file($file))
+            unlink($file); //deletes files
+        }
+
+    $files = glob('selfies/*'); //find all files in selfies
+        foreach($files as $file){ //iterate files
+            if(is_file($file))
+            unlink($file); //deletes files
+        }
+
+    }
+?>
+
+
+
+<div id = "done" style="display: none">
+
+    <a href="Voting.html">All gone!</a>
+</div>
+
+</body>
+</html>
+
+
