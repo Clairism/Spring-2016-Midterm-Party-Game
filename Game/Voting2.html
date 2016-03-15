@@ -14,7 +14,7 @@
 		//display imgs from folder url
 		//Move this search inside 
 		var folder = "uploads/";
-		console.log("snapshot");
+		//console.log("snapshot");
 		
 		//var imgVotes = clickedImg.child(imageLocation);
 
@@ -79,7 +79,7 @@
 					var imgsrc = $(this).attr('src');
 					//console.log("img src before: ", imgsrc);
 					imgsrc = imgsrc.replace('uploads/','');
-					console.log("img src after: ", imgsrc);
+					//console.log("img src after: ", imgsrc);
 
 						//Find image's parent in firebase
 						//Note: If filename is not found in DB, this code will NOT throw an error, and no vote will be logged
@@ -87,20 +87,24 @@
 						var ref = snapshot.ref();
 					    imageLocation = snapshot.key();
 
-					    console.log("Image Loc: " + imageLocation);
+					    //console.log("Image Loc: " + imageLocation);
 
 					    imgVotes = clickedImg.child(imageLocation);
 
-						console.log("snapshot ",snapshot.name());
+						//console.log("snapshot ",snapshot.name());
 						//console.log(ref.parent().key())
 
 					});
 
 					//console.log($(this));
-					$(this).toggleClass('highlight');
+
+					//this limits the number of imgs you can highlight at a time
+					var $this = $(this);
+					
+					$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
 
 					//pass $this into vote var
-					console.log("VN:" + voteName);
+					//console.log("VN:" + voteName);
 					var votesForLarge = imgVotes.child(voteName);
 
 					//hightlight -- votes

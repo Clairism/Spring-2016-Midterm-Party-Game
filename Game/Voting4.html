@@ -8,6 +8,7 @@
 </head>
 
 <body>
+<div id="voting"> 
 	<h1 id="title">Select 2 Soft Objects</h1>
 
 	<script type="text/javascript">
@@ -16,6 +17,7 @@
 		var folder = "uploads/";
 		console.log("snapshot");
 
+		
 
 
 		$.ajax({
@@ -30,7 +32,7 @@
 
 				});
 
-
+				$("#waitingToView").hide();
 
 
 				var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
@@ -96,6 +98,15 @@
             }
 		});
 
+		//Write logic to hide waiting message until player has submitted votes
+
+			$(document).ready(function(){
+
+			   if $("#submitButton").click(function(){ 
+			         $("#waitingToView").show();
+			         $("#voting").hide();
+			    });
+			 });
 
 	</script>
 
@@ -105,11 +116,16 @@
 			border: 8px rgb(25, 255, 0) ridge;
 		}
 
-	</style>
+</style>
+	<input type="submit" id="submitButton"> <!-- value="Submit your votes" -->
+</div>
 
+<div id="waitingToView">
+	<h2 id="waitMessage">Please wait while all players finish voting</h1>
+	<!-- create if statement to hide link until all player votes in -->
+	<a id="voteFinished" href="Story.html">Your story is ready!</a>
 	<p>	
-		<a id="voteFinished" href="Story.html">See Your Story!</a>
-	</p>
+</div>
 
 </body>
 </html>

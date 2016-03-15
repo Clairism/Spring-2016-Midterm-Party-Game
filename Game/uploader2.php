@@ -250,7 +250,7 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" ) { //&& !empty($_FILES["myFile"])
     //*** Todo: Replace "player1" with userName from cookie
     //var usersRef = ref.child("player1");
     //usersRef.set({
-    ref.set({
+    ref.update({
 
 //****Todo: Replace "player1" with value userName from cookie inside of <?php ?> tags
 //Suggestion: User variable $userName to store value from cookie in PHP and us it here
