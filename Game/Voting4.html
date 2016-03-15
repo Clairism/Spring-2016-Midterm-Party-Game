@@ -64,7 +64,11 @@
 					});
 
 					//console.log($(this));
-					$(this).toggleClass('highlight');
+					
+					//this limits the number of imgs you can highlight at a time
+					var $this = $(this);
+
+					$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
 
 					//pass $this into vote var
 					console.log("VN:" + voteName);

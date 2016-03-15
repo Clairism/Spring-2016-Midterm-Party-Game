@@ -14,11 +14,11 @@
 	</div>
 
 	<div id="done">
-		<h1 id="title">Select the 5 Most Dirty Objects</h1>
+		<h1 id="title">Select 2 Silly Objects</h1>
 
 		<script type="text/javascript">
 
-<<<<<<< HEAD
+
 		//imgs parent
 		var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/imgs/");
 
@@ -27,9 +27,9 @@
 
 		var imgVotes = clickedImg.child("imgVotes");
 		var votesForSilly = imgVotes.child('votesForSilly');
-=======
+
 			$("#done").hide();
->>>>>>> 22e382a7d621f7d84ae148b4f08b424a9c9e724b
+
 
 		//imgs parent
 		var imgs = new Firebase("https://incandescent-heat-4986.firebaseio.com/imgs/");
@@ -58,10 +58,16 @@
 			$("img").on("click", function () {
 				//img click event
 
+				//this limits the number of imgs you can highlight at a time
+				var $this = $(this);
+
+				$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
+
 				//get img src
 				//console.log( "img src", $(this).attr('src'));
 				
-				$(this).toggleClass('highlight');
+				//$(this).toggleClass('highlight');
+				
 
 				//push src test
 				// var pushImg = votesForSilly.push();
@@ -117,7 +123,7 @@
 
 <p>	
 
-	<a id="voteFinished" href="story.html">See Your Story!</a>
+	<a href="Voting2.html">Submit Votes</a>
 </p>
 </div>
 </body>
