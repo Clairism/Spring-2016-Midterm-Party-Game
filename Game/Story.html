@@ -14,17 +14,17 @@
 		var images = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/")
 
 		var largeImg = "";
-		var sillyImg = "";
 		var dirtyImg = "";
 		var uglyImg = "";
+		var softImg = "";
 
 		images.once("value", function(snapshot){
 			//var mostSilly = "";	
 
 			var largeVotes = 0;
-			var sillyVotes = 0;
 			var dirtyVotes = 0;
 			var uglyVotes = 0;
+			var softVotes = 0;
 
 			snapshot.forEach(function(childSnapshot){
 
@@ -38,34 +38,41 @@
 					largeImg = childData.filename;
 				}
 
-
-				if (childData.VotesForSilly > sillyVotes)
-				{
-					sillyVotes = childData.VotesForSilly;
-					sillyImg = childData.filename;
-				}
 				if (childData.VotesForDirty > dirtyVotes)
 				{
 					dirtyVotes = childData.VotesForDirty;
 					dirtyImg = childData.filename;
 				}
+
 				if (childData.VotesForUgly > uglyVotes)
 				{
 					uglyVotes = childData.VotesForUgly;
 					uglyImg = childData.filename;
 				}
+				
+				if (childData.VotesForSoft > softVotes)
+				{
+					softVotes = childData.VotesForSoft;
+					softImg = childData.filename;
+				}
 
 
 			});
 
-			console.log(largeImg, sillyImg, dirtyImg, uglyImg, largeVotes);
+			console.log(largeImg, dirtyImg, uglyImg, softImg, largeVotes);
 
 			var large = document.getElementById('large');
 			large.src = "uploads/" + largeImg;
 			//console.log(large.src);
 
-			var silly = document.getElementById('silly');
-			silly.src = "uploads/" + sillyImg;
+			var dirty = document.getElementById('dirty');
+			dirty.src = "uploads/" + dirtyImg;
+
+			var ugly = document.getElementById('ugly');
+			ugly.src = "uploads/" + uglyImg;
+
+			var soft = document.getElementById('soft');
+			soft.src = "uploads/" + softImg;
 
 		});
 
@@ -92,7 +99,7 @@
 
 <p>
 	<img id="large"> is pretty large.<br />
-	<img id="silly"> is very silly.<br />
+<!-- 	<img id="silly"> is very silly.<br /> -->
 
 	<!-- (dirty obj) -->
 	<!-- <img src="uploads/soft.jpeg">  -->
