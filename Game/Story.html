@@ -40,7 +40,7 @@
 
 				if (childData.VotesForDirty > dirtyVotes)
 				{
-					dirtyVotes = childData.VotesForDirty;
+					dirtyVotes = childData.votesForDirty;
 					dirtyImg = childData.filename;
 				}
 
@@ -60,6 +60,11 @@
 			});
 
 			console.log(largeImg, dirtyImg, uglyImg, softImg, largeVotes);
+			console.log("dirtyImg:" + dirtyImg);
+			console.log("uglyImg:" + uglyImg);
+			console.log("dirtyVotes:" + dirtyVotes);
+			console.log("largeVotes:" + largeVotes);
+			console.log("uglyVotes:" + uglyVotes);
 
 			var large = document.getElementById('large');
 			large.src = "uploads/" + largeImg;
@@ -99,7 +104,7 @@
 
 <p>
 	<img id="large"> is pretty large.<br />
-<!-- 	<img id="silly"> is very silly.<br /> -->
+	<img id="silly"> is very silly.<br />
 
 	<!-- (dirty obj) -->
 	<!-- <img src="uploads/soft.jpeg">  -->
