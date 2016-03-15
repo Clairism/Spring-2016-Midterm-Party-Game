@@ -43,15 +43,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 }
     else if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
+        $allowed = array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG);
+
     $files = glob('uploads/*'); //find all files in uploads
         foreach($files as $file){ //iterate files
-            if(is_file($file))
+            $fileType = exif_imagetype($file);
+
+            if(is_file($file) && in_array($fileType, $allowed))
             unlink($file); //deletes files
         }
 
     $files = glob('selfies/*'); //find all files in selfies
         foreach($files as $file){ //iterate files
-            if(is_file($file))
+            $fileType = exif_imagetype($file);
+
+            if(is_file($file) && in_array($fileType, $allowed))
             unlink($file); //deletes files
         }
 

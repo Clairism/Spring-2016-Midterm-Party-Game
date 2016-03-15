@@ -6,9 +6,10 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+	<!-- <script src="backbutton.js"></script> --><!-- This is to disable backbutton -->
 
 </head>
-<body>
+<body> <!-- onbeforeunload="HandleBack()"> --><!-- This is to disable backbutton -->
 	<h1>Welcome to Mad Pic!</h1>
 
 	<?php
@@ -21,8 +22,8 @@
 		<?php 
 		if( isset($_SESSION['userName']))
 		{
-			echo 'Welcome Back '.$_SESSION['userName'].'<br />';
-
+			echo 'Welcome Back '.$_SESSION['userName'].'!<br/><p>';
+			echo 'Please choose a new selfie.<br/><p>';
 		}
 		else
 		{
@@ -34,7 +35,7 @@
 		?>
 		
 		<input type="file" name="selfie"/>
-		<br/>
+		<br/><p>
 		<input type="submit" value="Upload"/>
 		</form>
 
@@ -122,7 +123,7 @@
   userNames.set({
   	selfieName: "<?php echo $name ?>",
   	playernum: nextPlayer
-  
+
   });
 </script>
 

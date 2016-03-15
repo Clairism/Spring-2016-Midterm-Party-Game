@@ -8,7 +8,7 @@
 </head>
 
 <body>
-	<h1 id="title">Select 2 Large Objects</h1>
+	<h1 id="title">Select 2 Silly Objects</h1>
 
 	<script type="text/javascript">
 		//display imgs from folder url
@@ -34,7 +34,7 @@
 
 
 				var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
-				//var votesForLarge = imgVotes.child('votesForLarge');
+				//var votesForSilly = imgVotes.child('votesForSilly');
 				var voteName = 'VotesForSilly'; // Change this value for each voting page
 				var imageLocation;
 				var imgVotes;
@@ -64,19 +64,24 @@
 					});
 
 					//console.log($(this));
-					$(this).toggleClass('highlight');
+									//this limits the number of imgs you can highlight at a time
+				var $this = $(this);
+
+				$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
+
+
 
 					//pass $this into vote var
 					console.log("VN:" + voteName);
-					var votesForLarge = imgVotes.child(voteName);
+					var votesForSilly = imgVotes.child(voteName);
 
 					//hightlight -- votes
 					if ( $(this).hasClass('highlight') ) {
-						votesForLarge.transaction(function (current_value) {
+						votesForSilly.transaction(function (current_value) {
 							return (current_value || 0) + 1;
 						});
 					}else{
-						votesForLarge.transaction(function (current_value) {
+						votesForSilly.transaction(function (current_value) {
 							if(current_value <= 0){
 								return current_value = 0;
 							}else{
@@ -104,7 +109,7 @@
 	</style>
 
 	<p>	
-		<a id="vote3" href="Voting3.html">Submit vote</a>
+		<a id="vote3" href="Voting3.html">Submit votes</a>
 	</p>
 
 </body>
