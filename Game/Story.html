@@ -3,117 +3,113 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+
 
 </head>
 <body>
 
 	<script type="text/javascript">
 
-		// var madLibs = function() { 
-		// 	var storyDiv = document.getElementById("story"); 
-		// 	var name = document.getElementById("name").value; 
-		// 	var adjective = document.getElementById("adjective").value; 
-		// 	var noun = document.getElementById("noun").value; 
-		// 	storyDiv.innerHTML = name + " married a " + adjective + " " + noun + "... So weird!"; 
-		// }
+		var images = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/")
+
+		var largeImg = "";
+		var sillyImg = "";
+		var dirtyImg = "";
+		var uglyImg = "";
+
+		images.once("value", function(snapshot){
+			//var mostSilly = "";	
+
+			var largeVotes = 0;
+			var sillyVotes = 0;
+			var dirtyVotes = 0;
+			var uglyVotes = 0;
+
+			snapshot.forEach(function(childSnapshot){
+
+				//var key = childSnapshot.key();
+
+				var childData = childSnapshot.val();
+
+				if (childData.VotesForLarge > largeVotes)
+				{
+					largeVotes = childData.VotesForLarge;
+					largeImg = childData.filename;
+				}
 
 
-		// $(document).ready(function(){
-		// 	$('#lib-button').click(function(){
-		// 		madLibs();
-		// 	});
-		// })
+				if (childData.VotesForSilly > sillyVotes)
+				{
+					sillyVotes = childData.VotesForSilly;
+					sillyImg = childData.filename;
+				}
+				if (childData.VotesForDirty > dirtyVotes)
+				{
+					dirtyVotes = childData.VotesForDirty;
+					dirtyImg = childData.filename;
+				}
+				if (childData.VotesForUgly > uglyVotes)
+				{
+					uglyVotes = childData.VotesForUgly;
+					uglyImg = childData.filename;
+				}
 
-		$(function(){
 
-			var player1 = $('#player1'),
-			player2 = $('#player2'),
-			player3 = $('#player3'),
-			player4 = $('#player4');
+			});
 
-			var	dirty = $('#dirty'),
-			large = $('#large'),
-			ugly = $('#ugly'),
-			soft = $('#soft');
+			console.log(largeImg, sillyImg, dirtyImg, uglyImg, largeVotes);
 
-			player1.keyup(function(){
-				$('#player1-output').text(player1.val());
-			})
+			var large = document.getElementById('large');
+			large.src = "uploads/" + largeImg;
+			//console.log(large.src);
 
-			player2.keyup(function(){
-				$('#player2-output').text(player2.val());
-			})
+			var silly = document.getElementById('silly');
+			silly.src = "uploads/" + sillyImg;
 
-			player3.keyup(function(){
-				$('#player3-output').text(player3.val());
-			})
+		});
 
-			player4.keyup(function(){
-				$('#player4-output').text(player4.val());
-			})
+</script>
 
-			dirty.keyup(function(){
-				$('#dirty-output').text(dirty.val());
-			})
+<h1>One Day</h1>
 
-			large.keyup(function(){
-				$('#large-output').text(large.val());
-			})
+<style type="text/css">
 
-			ugly.keyup(function(){
-				$('#ugly-output').text(ugly.val());
-			})
+	img {
+		margin-bottom: 100px;
+		max-width: 350px;
+		max-height: auto;
+		padding-bottom: 30px;
 
-			soft.keyup(function(){
-				$('#soft-output').text(soft.val());
-			})
+	}
 
-			  $('button').on('click', function(){
-    $('.madlib-output').toggle('fast');
-  })
+	.TextWrap{
+		float: right;
+		margin: 10px;
+	}
 
-		})
+</style>
 
-	</script>
+<p>
+	<img id="large"> is pretty large.<br />
+	<img id="silly"> is very silly.<br />
 
-	<p>
+	<!-- (dirty obj) -->
+	<!-- <img src="uploads/soft.jpeg">  -->
+	's birthday party was a disaster.<br />
+	It stated going downhill when <span id="player2-output"></span> arrived, bringing a <span id="dirty-output"></span> as his/her gift. <br />
 
-		<div class="madlib-wrapper">
-			<h1>One Day</h1>
+	<br /><span id="player1-output"></span> had to pretend he/she liked it, even though it was the worst.<br />
 
-			<div class="input-container">
-				<input type="text" id="player1" placeholder="player1" />
-				<input type="text" id="player2" placeholder="player2" />
-				<input type="text" id="player3" placeholder="player3" />
-				<input type="text" id="player4" placeholder="player4" />
-				<input type="text" id="dirty" placeholder="dirty" />
-				<input type="text" id="large" placeholder="large" />
-				<input type="text" id="ugly" placeholder="ugly" />
-				<input type="text" id="soft" placeholder="soft" />
+	<!-- (large obj) -->
+	<br />Then <span id="player3-output"></span> took over the party playlist and played nothing but Elton John. It infuriated <span id="player4-output"></span> and he/she threw a/an <span id="large-output"></span> at the stereo. Completely destroying both.<br />
 
-				<button id="madlib-toggle">Madlib It!</button>
-			</div>
+	<!-- (ugly obj) -->
+	<br /><span id="player1-output"></span> was especially looking forward to the cake. When the cake came out the bakery has drawn a/an <span id="ugly-output"></span> on it. What the fuck!<br />
 
-			<p>
-			<!-- (dirty obj) -->
-			<span id="player1-output"></span> 's birthday party was a disaster.
-			<br /> It started going downhill when <span id="player2-output"></span> arrived, bringing a <span id="dirty-output"></span> as his/her gift. <br />
-
-			<br /><span id="player1-output"></span> had to pretend he/she liked it, even though it was the worst.<br />
-
-			<!-- (large obj) -->
-			<br />Then <span id="player3-output"></span> took over the party playlist and played nothing but Elton John. It infuriated <span id="player4-output"></span> and he/she threw a/an <span id="large-output"></span> at the stereo. Completely destroying both.<br />
-
-			<!-- (ugly obj) -->
-			<br /><span id="player1-output"></span> was especially looking forward to the cake. When the cake came out the bakery has drawn a/an <span id="ugly-output"></span> on it. What the fuck!<br />
-
-			<!-- (soft obj) -->
-			<br /><span id="player1-output"></span> clutched his/her favorite <span id="soft-output"></span> and cried.<br />
-
-		</p>
-	</div>
-
+	<!-- (soft obj) -->
+	<br /><span id="player1-output"></span> clutched his/her favorite <span id="soft-output"></span> and cried.<br />
 </p>
 
+</body>
 </html>
