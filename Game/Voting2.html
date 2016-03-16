@@ -26,37 +26,6 @@
 
 		//check for the most silly pic
 
-		clickedImg.once("value", function(snapshot){
-			var mostLarge = "";	
-			var highestvotes = 0;
-
-			snapshot.forEach(function(childSnapshot){
-
-				//var key = childSnapshot.key();
-						
-				var childData = childSnapshot.val();
-			
-				if (childData.VotesForLarge > highestvotes)
-				{
-					highestvotes = childData.VotesForLarge;
-					mostLarge = childData.filename;
-				}
-
-				//console.log(childData.filename, childData.VotesForSilly);
-
-				//childSnapshot.orderByValue().on("value", function(snapshot){
-				//	snapshot.forEach(function(data){
-				//		//console.log(data.key(), data.val());
-				//	});
-				//});
-
-			});
-
-			console.log(mostLarge , highestvotes);
-
-		});
-
-
 		$.ajax({
 			url : folder,
 			success: function (data) {
@@ -90,6 +59,8 @@
 					    //console.log("Image Loc: " + imageLocation);
 
 					    imgVotes = clickedImg.child(imageLocation);
+
+					    console.log(imgVotes);
 
 						//console.log("snapshot ",snapshot.name());
 						//console.log(ref.parent().key())

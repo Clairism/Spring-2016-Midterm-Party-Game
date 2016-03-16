@@ -24,7 +24,7 @@
 		//imgs parent
 		var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/")
 
-		var voteName = 'VotesForDirty'; // Change this value for each voting page
+		var voteName = 'votesForDirty'; // Change this value for each voting page
 		var imageLocation;
 		var imgVotes;
 
@@ -40,7 +40,7 @@
 			$(data).find("a").attr("href", function (i, val) {
 				if( val.match(/\.(jpe?g|png|gif|JPG)$/) ) { 
 					$("#done").append( "<img src='"+ folder + val + "'>" );
-					console.log("image count", i);
+					//console.log("image count", i);
 				}
 				if (i >= 3){
 					$("#waiting").hide();
@@ -51,7 +51,7 @@
 
 			var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
 			//var votesForSilly = imgVotes.child('votesForSilly');
-				var voteName = 'votesForDirty'; // Change this value for each voting page
+				var voteName = 'VotesForDirty'; // Change this value for each voting page
 				var imageLocation;
 				var imgVotes;
 
@@ -61,7 +61,7 @@
 				var imgsrc = $(this).attr('src');
 					//console.log("img src before: ", imgsrc);
 					imgsrc = imgsrc.replace('uploads/','');
-					console.log("img src after: ", imgsrc);
+					//console.log("img src after: ", imgsrc);
 
 						//Find image's parent in firebase
 						//Note: If filename is not found in DB, this code will NOT throw an error, and no vote will be logged
@@ -69,11 +69,13 @@
 							var ref = snapshot.ref();
 							imageLocation = snapshot.key();
 
-							console.log("Image Loc: " + imageLocation);
+							//console.log("Image Loc: " + imageLocation);
 
 							imgVotes = clickedImg.child(imageLocation);
 
-							console.log(snapshot.key());
+							console.log(voteName);
+
+							//console.log(snapshot.key());
 
 						//console.log(ref.parent().key());
 
