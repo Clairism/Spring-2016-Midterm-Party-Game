@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Voting for Large</title>
+	<title>Voting for Dirtiest Object</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
@@ -30,46 +30,6 @@
 
 		//var chosenImg = clickedImg.child("MostDirtyImg");
 
-		//check for the most Dirty pic
-
-		clickedImg.once("value", function(snapshot){
-			var mostDirty = "";	
-			var highestvotes = 0;
-
-			snapshot.forEach(function(childSnapshot){
-
-				//var key = childSnapshot.key();
-
-				var childData = childSnapshot.val();
-
-				if (childData.VotesForDirty > highestvotes)
-				{
-					highestvotes = childData.VotesForDirty;
-					mostDirty = childData.filename;
-				}
-
-				//console.log(childData.filename, childData.VotesForDirty);
-
-				//childSnapshot.orderByValue().on("value", function(snapshot){
-				//	snapshot.forEach(function(data){
-				//		//console.log(data.key(), data.val());
-				//	});
-				//});
-
-			});
-
-			console.log(mostDirty , highestvotes);
-			clickedImg.set({
-				MostDirtyImg: mostDirty
-			});
-		});
-
-
-		//imgs parent
-		var imgs = new Firebase("https://incandescent-heat-4986.firebaseio.com/imgs/");
-		var imgVotes = imgs.child("imgVotes");
-		var votesForDirty = imgVotes.child("votesForDirty");
-
 		//display imgs from folder url
 		var folder = "uploads/";
 
@@ -89,13 +49,13 @@
 
 			});
 
-				var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
+			var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
 			//var votesForSilly = imgVotes.child('votesForSilly');
 				var voteName = 'votesForDirty'; // Change this value for each voting page
 				var imageLocation;
 				var imgVotes;
 
-			$("img").on("click", function () {
+				$("img").on("click", function () {
 				//img click event
 
 				var imgsrc = $(this).attr('src');
@@ -106,14 +66,14 @@
 						//Find image's parent in firebase
 						//Note: If filename is not found in DB, this code will NOT throw an error, and no vote will be logged
 						clickedImg.orderByChild("filename").equalTo(imgsrc).on("child_added", function(snapshot) {
-						var ref = snapshot.ref();
-					    imageLocation = snapshot.key();
+							var ref = snapshot.ref();
+							imageLocation = snapshot.key();
 
-					    console.log("Image Loc: " + imageLocation);
+							console.log("Image Loc: " + imageLocation);
 
-					    imgVotes = clickedImg.child(imageLocation);
+							imgVotes = clickedImg.child(imageLocation);
 
-						console.log(snapshot.key());
+							console.log(snapshot.key());
 
 						//console.log(ref.parent().key());
 
@@ -125,29 +85,14 @@
 
 				$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
 
-				//get img src
-				//console.log( "img src", $(this).attr('src'));
-				
-				//$(this).toggleClass('highlight');
-				
-
-				//push src test
-				// var pushImg = votesForDirty.push();
-				// pushImg.set({ 
-				//  "clicked": $(this).attr('src') 
-				//});
-
 				//hightlight -- votes
+				var votesForDirty = imgVotes.child(voteName);
+
 				if ( $(this).hasClass('highlight') ) {
 
 					votesForDirty.transaction(function (current_value) {
 						return (current_value || 0) + 1;
 					});
-
-					// votesForDirty.child($(this).attr('src')).transaction(function (current_value) {
-					// 	return (current_value || 0) + 1;
-					// });
-
 				}else{
 					votesForDirty.transaction(function (current_value) {
 						if(current_value <= 0){
@@ -159,34 +104,29 @@
 						}
 					});
 
-					// votesForDirtys.child($(this).attr('src')).transaction(function (current_value) {
-					// 	if(current_value = 0){
-					// 		votesForDirty.child($(this).attr('src')).remove();
-					// 	}else{
-					// 		return current_value - 1;
-					// 	}
-					// });
-
 				}
 					//$(this).addClass('clicked');
 				});
+			},
+			error: function(user,status,er) { 
+				console.log("error: "+user+" status: "+status+" er:"+er);
+			}
+		});
+
+	</script>
+
+	<style>
+
+		img.highlight {
+			border: 8px rgb(25, 255, 0) ridge;
 		}
-	});
 
-</script>
+	</style>
 
-<style>
+	<p>	
 
-	img.highlight {
-		border: 8px rgb(25, 255, 0) ridge;
-	}
-
-</style>
-
-<p>	
-
-	<a href="Voting2.html">Submit Votes</a>
-</p>
+		<a href="Voting2.html">Submit Votes</a>
+	</p>
 </div>
 </body>
 </html>

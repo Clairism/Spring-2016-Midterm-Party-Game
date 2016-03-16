@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Voting for Silly</title>
+	<title>Voting for Largest Object</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
@@ -20,14 +20,14 @@
 
 		var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/")
 		//var votesForLarge = imgVotes.child('votesForLarge');
-		var voteName = 'VotesForSilly'; // Change this value for each voting page
+		var voteName = 'votesForLarge'; // Change this value for each voting page
 		var imageLocation;
 		var imgVotes;
 
 		//check for the most silly pic
 
 		clickedImg.once("value", function(snapshot){
-			var mostSilly = "";	
+			var mostLarge = "";	
 			var highestvotes = 0;
 
 			snapshot.forEach(function(childSnapshot){
@@ -36,10 +36,10 @@
 						
 				var childData = childSnapshot.val();
 			
-				if (childData.VotesForSilly > highestvotes)
+				if (childData.VotesForLarge > highestvotes)
 				{
-					highestvotes = childData.VotesForSilly;
-					mostSilly = childData.filename;
+					highestvotes = childData.VotesForLarge;
+					mostLarge = childData.filename;
 				}
 
 				//console.log(childData.filename, childData.VotesForSilly);
@@ -52,7 +52,7 @@
 
 			});
 
-			console.log(mostSilly , highestvotes);
+			console.log(mostLarge , highestvotes);
 
 		});
 
