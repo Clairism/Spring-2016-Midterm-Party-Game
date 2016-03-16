@@ -24,6 +24,7 @@ p{
 	font-size: 30px;
 	background-color: rgb(0,200,255);
 	font-family: "Trebuchet MS", Times, serif;
+	z-index: 5;
 }
 
 img {
@@ -31,4 +32,9 @@ img {
 	max-width: 30%;
 	max-height: auto;
 	transform: translate(0, 50%)
+	z-index: 1;
+}
+
+@media screen and (min-width: 768px){
+            .rwd-line { display: inline; }
 }
