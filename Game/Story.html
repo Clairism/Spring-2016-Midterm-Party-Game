@@ -59,26 +59,37 @@
 
 			});
 
+			console.log(largeImg, dirtyImg, uglyImg, softImg, largeVotes);
 			console.log("dirtyImg:" + dirtyImg);
 			console.log("uglyImg:" + uglyImg);
 			console.log("dirtyVotes:" + dirtyVotes);
 			console.log("largeVotes:" + largeVotes);
 			console.log("uglyVotes:" + uglyVotes);
 
-			// var large = document.getElementById('large');
-			// large.src = "uploads/" + largeImg;
+			var large = document.getElementById('large');
+			large.src = "uploads/" + largeImg;
 			//console.log(large.src);
 
 			var dirty = document.getElementById('dirty');
 			dirty.src = "uploads/" + dirtyImg;
 
-			// var ugly = document.getElementById('ugly');
-			// ugly.src = "uploads/" + uglyImg;
+			var ugly = document.getElementById('ugly');
+			ugly.src = "uploads/" + uglyImg;
 
-			// var soft = document.getElementById('soft');
-			// soft.src = "uploads/" + softImg;
+			var soft = document.getElementById('soft');
+			soft.src = "uploads/" + softImg;
 
 		});
+
+		var playerSelfie1 = document.getElementById('playerSelfie1');
+		var playerSelfie2 = document.getElementById('playerSelfie2');
+		var playerSelfie3 = document.getElementById('playerSelfie3');
+		var playerSelfie4 = document.getElementById('playerSelfie4');
+
+		playerSelfie1.src = "selfies/" + largeImg;
+		playerSelfie2.src = "selfies/" + largeImg;
+		playerSelfie3.src = "selfies/" + largeImg;
+		playerSelfie4.src = "selfies/" + largeImg;
 
 </script>
 
@@ -89,7 +100,7 @@
 	img {
 		margin-bottom: 100px;
 		max-width: 350px;
-		max-height: 500px;
+		max-height: auto;
 		padding-bottom: 30px;
 
 	}
@@ -102,24 +113,22 @@
 </style>
 
 <p>
-	<img id="dirty"> is pretty large.<br />
-	<img id="silly"> is very silly.<br />
 
 	<!-- (dirty obj) -->
 	<!-- <img src="uploads/soft.jpeg">  -->
-	<span id="player1-output"></span>'s birthday party was a disaster.<br />
-	It stated going downhill when <span id="player2-output"></span> arrived, bringing a <img id="dirty"> as his/her gift. <br />
+	<img id="playerSelfie1">'s birthday party was a disaster.<br />
+	It stated going downhill when <img id="playerSelfie2"> arrived, bringing a <img id="dirty"> as his/her gift. <br />
 
-	<br /><span id="player1-output"></span> had to pretend he/she liked it, even though it was the worst.<br />
+	<br /><img id="playerSelfie1"> had to pretend he/she liked it, even though it was the worst.<br />
 
 	<!-- (large obj) -->
-	<br />Then <span id="player3-output"></span> took over the party playlist and played nothing but Elton John. It infuriated <span id="player4-output"></span> and he/she threw a/an <img id="large"> at the stereo. Completely destroying both.<br />
+	<br />Then <img id="playerSelfie3"> took over the party playlist and played nothing but Elton John. It infuriated <img id="playerSelfie4"> and he/she threw a/an <img id="large"> at the stereo. Completely destroying both.<br />
 
 	<!-- (ugly obj) -->
-	<br /><span id="player1-output"></span> was especially looking forward to the cake. When the cake came out the bakery has drawn a/an <img id="ugly"></span> on it. What the fuck!<br />
+	<br /><img id="playerSelfie1"> was especially looking forward to the cake. When the cake came out the bakery has drawn a/an <img id="ugly"> on it. What the fuck!<br />
 
 	<!-- (soft obj) -->
-	<br /><span id="player1-output"></span> clutched his/her favorite <img id="soft"></span> and cried.<br />
+	<br /><img id="playerSelfie1"> clutched his/her favorite <img id="soft"> and cried.<br />
 </p>
 
 </body>

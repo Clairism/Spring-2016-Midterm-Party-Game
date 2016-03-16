@@ -116,12 +116,13 @@
   userCount.once("value", function(snapshot) {
   	nextPlayer = snapshot.numChildren() + 1;
   	console.log("NP: " + nextPlayer);
+
+  	userNames.set({
+  		selfieName: "<?php echo $name ?>",
+  		playernum: nextPlayer
+  	});
   });
 
-  userNames.set({
-  	selfieName: "<?php echo $name ?>",
-  	playernum: nextPlayer
-  });
 
 </script>
 
