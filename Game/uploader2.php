@@ -287,7 +287,7 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" ) { //&& !empty($_FILES["myFile"])
     echo "<p>Uploaded file saved as " . $name5 . ".</p>";
     echo "<p>Uploaded file saved as " . $name6 . ".</p>";
 
-    echo "<br><p><a href='Voting2.html'>Time to Vote! Click here to continue</a></p>";
+    echo "<br><p><a href='Voting.html'>Time to Vote! Click here to continue</a></p>";
 
 }
 ?>
