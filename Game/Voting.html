@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>jQuery click event</title>
+	<title>Voting for Dirtiest Object</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
@@ -14,27 +14,21 @@
 	</div>
 
 	<div id="done">
-		<h1 id="title">Select the 5 Most Dirty Objects</h1>
+
+		<h1 id="title">Select 2 Dirty Objects</h1>
 
 		<script type="text/javascript">
 
-// <<<<<<< HEAD
-// 		//imgs parent
-// 		var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/imgs/");
-
-// 		var newpath = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
-// 		//Add code to loop through the database images instead of the folder path?
-
-// 		var imgVotes = clickedImg.child("imgVotes");
-// 		var votesForSilly = imgVotes.child('votesForSilly');
-// =======
 			$("#done").hide();
-// >>>>>>> 22e382a7d621f7d84ae148b4f08b424a9c9e724b
 
 		//imgs parent
-		var imgs = new Firebase("https://incandescent-heat-4986.firebaseio.com/imgs/");
-		var imgVotes = imgs.child("imgVotes");
-		var votesForSilly = imgVotes.child("votesForSilly");
+		var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/")
+
+		var voteName = 'VotesForDirty'; // Change this value for each voting page
+		var imageLocation;
+		var imgVotes;
+
+		//var chosenImg = clickedImg.child("MostDirtyImg");
 
 		//display imgs from folder url
 		var folder = "uploads/";
@@ -55,70 +49,84 @@
 
 			});
 
-			$("img").on("click", function () {
+			var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
+			//var votesForSilly = imgVotes.child('votesForSilly');
+				var voteName = 'votesForDirty'; // Change this value for each voting page
+				var imageLocation;
+				var imgVotes;
+
+				$("img").on("click", function () {
 				//img click event
 
-				//get img src
-				//console.log( "img src", $(this).attr('src'));
-				
-				$(this).toggleClass('highlight');
+				var imgsrc = $(this).attr('src');
+					//console.log("img src before: ", imgsrc);
+					imgsrc = imgsrc.replace('uploads/','');
+					console.log("img src after: ", imgsrc);
 
-				//push src test
-				// var pushImg = votesForSilly.push();
-				// pushImg.set({ 
-				//  "clicked": $(this).attr('src') 
-				//});
+						//Find image's parent in firebase
+						//Note: If filename is not found in DB, this code will NOT throw an error, and no vote will be logged
+						clickedImg.orderByChild("filename").equalTo(imgsrc).on("child_added", function(snapshot) {
+							var ref = snapshot.ref();
+							imageLocation = snapshot.key();
 
-				//hightlight -- votes
-				if ( $(this).hasClass('highlight') ) {
+							console.log("Image Loc: " + imageLocation);
 
-					votesForSilly.transaction(function (current_value) {
-						return (current_value || 0) + 1;
+							imgVotes = clickedImg.child(imageLocation);
+
+							console.log(snapshot.key());
+
+						//console.log(ref.parent().key());
+
 					});
 
-					// votesForSilly.child($(this).attr('src')).transaction(function (current_value) {
-					// 	return (current_value || 0) + 1;
-					// });
 
+				//this limits the number of imgs you can highlight at a time
+				var $this = $(this);
+
+				$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
+
+				//hightlight -- votes
+				var votesForDirty = imgVotes.child(voteName);
+
+				if ( $(this).hasClass('highlight') ) {
+
+					votesForDirty.transaction(function (current_value) {
+						return (current_value || 0) + 1;
+					});
 				}else{
-					votesForSilly.transaction(function (current_value) {
+					votesForDirty.transaction(function (current_value) {
 						if(current_value <= 0){
 							return current_value = 0;
-							//votesForSilly.child('$(this).attr('src')').remove();
+							//votesForDirty.child('$(this).attr('src')').remove();
 
 						}else{
 							return current_value - 1;
 						}
 					});
 
-					// votesForSillys.child($(this).attr('src')).transaction(function (current_value) {
-					// 	if(current_value = 0){
-					// 		votesForSilly.child($(this).attr('src')).remove();
-					// 	}else{
-					// 		return current_value - 1;
-					// 	}
-					// });
-
 				}
 					//$(this).addClass('clicked');
 				});
+			},
+			error: function(user,status,er) { 
+				console.log("error: "+user+" status: "+status+" er:"+er);
+			}
+		});
+
+	</script>
+
+	<style>
+
+		img.highlight {
+			border: 8px rgb(25, 255, 0) ridge;
 		}
-	});
 
-</script>
+	</style>
 
-<style>
+	<p>	
 
-	img.highlight {
-		border: 8px rgb(25, 255, 0) ridge;
-	}
-
-</style>
-
-<p>	
-
-	<a id="voteFinished" href="story.html">See Your Story!</a>
-</p>
+		<a href="Voting2.html">Submit Votes</a>
+	</p>
 </div>
 </body>
 </html>

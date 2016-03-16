@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Voting for Silly</title>
+	<title>Voting for Largest Object</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
@@ -14,37 +14,33 @@
 		//display imgs from folder url
 		//Move this search inside 
 		var folder = "uploads/";
-		console.log("snapshot");
+		//console.log("snapshot");
 		
 		//var imgVotes = clickedImg.child(imageLocation);
 
 		var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/")
 		//var votesForLarge = imgVotes.child('votesForLarge');
-		var voteName = 'VotesForSilly'; // Change this value for each voting page
+		var voteName = 'votesForLarge'; // Change this value for each voting page
 		var imageLocation;
 		var imgVotes;
-		var mostImg = clickedImg.child("MostSillyImg");
-
-		//var chosenImg = clickedImg.child("MostSillyImg");
 
 		//check for the most silly pic
-/*
+
 		clickedImg.once("value", function(snapshot){
-			var mostSilly = "";	
+			var mostLarge = "";	
 			var highestvotes = 0;
 
 			snapshot.forEach(function(childSnapshot){
 
 				//var key = childSnapshot.key();
-
+						
 				var childData = childSnapshot.val();
-
-				if (childData.VotesForSilly > highestvotes)
+			
+				if (childData.VotesForLarge > highestvotes)
 				{
-					highestvotes = childData.VotesForSilly;
-					mostSilly = childData.filename;
-
-				} 
+					highestvotes = childData.VotesForLarge;
+					mostLarge = childData.filename;
+				}
 
 				//console.log(childData.filename, childData.VotesForSilly);
 
@@ -56,10 +52,11 @@
 
 			});
 
-			console.log(mostSilly , highestvotes);
+			console.log(mostLarge , highestvotes);
+
 		});
 
-*/
+
 		$.ajax({
 			url : folder,
 			success: function (data) {
@@ -82,25 +79,29 @@
 					var imgsrc = $(this).attr('src');
 					//console.log("img src before: ", imgsrc);
 					imgsrc = imgsrc.replace('uploads/','');
-					console.log("img src after: ", imgsrc);
+					//console.log("img src after: ", imgsrc);
 
 						//Find image's parent in firebase
 						//Note: If filename is not found in DB, this code will NOT throw an error, and no vote will be logged
 						clickedImg.orderByChild("filename").equalTo(imgsrc).on("child_added", function(snapshot) {
-							var ref = snapshot.ref();
-							imageLocation = snapshot.key();
+						var ref = snapshot.ref();
+					    imageLocation = snapshot.key();
 
-							//console.log("Image Loc: " + imageLocation);
+					    //console.log("Image Loc: " + imageLocation);
 
-							imgVotes = clickedImg.child(imageLocation);
+					    imgVotes = clickedImg.child(imageLocation);
 
-							//console.log("snapshot ",snapshot.name());
+						//console.log("snapshot ",snapshot.name());
 						//console.log(ref.parent().key())
 
 					});
 
 					//console.log($(this));
-					$(this).toggleClass('highlight');
+
+					//this limits the number of imgs you can highlight at a time
+					var $this = $(this);
+					
+					$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
 
 					//pass $this into vote var
 					//console.log("VN:" + voteName);
@@ -123,10 +124,42 @@
 					}
 				});
 			},
-			error: function(user,status,er) { 
-				console.log("error: "+user+" status: "+status+" er:"+er);
-			}
+            error: function(user,status,er) { 
+                console.log("error: "+user+" status: "+status+" er:"+er);
+            }
 		});
+
+
+		//querying data
+
+		// clickedImg.orderByValue().on("value", function(snapshot) {
+		// 	snapshot.forEach(function(data) {
+		// 		console.log("data val:" + data.val());
+		// 	});
+		// });
+
+		// clickedImg.orderByChild(voteName).orderByValue().on("value", function(snapshot) {
+		// 	var ref = snapshot.ref();
+		//    imageLocation = snapshot.key();
+
+		// imgVotes = clickedImg.child(imageLocation);
+
+		//});
+
+		// clickedImg.orderByChild("VotesForSilly").limitToFirst(1).on("child_added", function(snapshot) {
+		//   console.log(snapshot.key());
+		// });
+
+		// var playerImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
+
+		//clickedImg.orderByValue().limitToFirst(1).on("value", function(snapshot) {
+		//   snapshot.forEach(function(data) {
+		//     console.log("data key: " + data.key() + " data value: " + data.val());
+		//   });
+		// });
+
+		//find by name
+
 
 	</script>
 

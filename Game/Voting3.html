@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>jQuery click event</title>
+	<title>Voting for Ugliest Object</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
@@ -17,6 +17,7 @@
 		console.log("snapshot");
 
 
+
 		$.ajax({
 			url : folder,
 			success: function (data) {
@@ -29,6 +30,11 @@
 
 				});
 
+				var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
+			//var votesForSilly = imgVotes.child('votesForSilly');
+				var voteName = 'votesForUgly'; // Change this value for each voting page
+				var imageLocation;
+				var imgVotes;
 				//img click event
 				$("img").on("click", function () {
 					//??remove the same img
@@ -50,12 +56,17 @@
 					    imgVotes = clickedImg.child(imageLocation);
 
 						console.log(snapshot.key());
+
 						//console.log(ref.parent().key());
 
 					});
 
 					//console.log($(this));
-					$(this).toggleClass('highlight');
+					
+					//this limits the number of imgs you can highlight at a time
+					var $this = $(this);
+
+					$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
 
 					//pass $this into vote var
 					console.log("VN:" + voteName);
@@ -95,7 +106,7 @@
 	</style>
 
 	<p>	
-		<a id="vote4" href="Voting4.html">Submit vote</a>
+		<a id="vote4" href="Voting4.html">Submit votes</a>
 	</p>
 
 </body>
