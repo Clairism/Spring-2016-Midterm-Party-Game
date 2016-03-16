@@ -9,10 +9,12 @@
 //paths to firebase which will get deleted for a new game
 var imagesRef = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
 var usersRef = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/");
+var finishedRef = new Firebase("https://incandescent-heat-4986.firebaseio.com/FinalVotesCollected/");
 
 
 imagesRef.remove(); //wipe all children of images/
 usersRef.remove(); //wipe all children of users/
+finishedRef.remove(); 
 
 
 

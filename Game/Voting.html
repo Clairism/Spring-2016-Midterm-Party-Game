@@ -13,17 +13,24 @@
 		<h1 id="title">Waiting for players to upload...</h1>
 	</div>
 
+	<div id="next">
+		<p>	
+			<a href="Voting2.html">Submit Votes</a>
+		</p>
+	</div>
+
 	<div id="done">
 
-		<h1 id="title">Select 2 Dirty Objects</h1>
+		<h1 id="title">Select 3 Dirty Objects</h1>
 
 		<script type="text/javascript">
 
 			$("#done").hide();
+			$("#next").hide();
 
 		//imgs parent
 		var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/")
-
+		var i = 0;
 		var voteName = 'votesForDirty'; // Change this value for each voting page
 		var imageLocation;
 		var imgVotes;
@@ -33,6 +40,18 @@
 		//display imgs from folder url
 		var folder = "uploads/";
 
+		var count = 0;
+		clickedImg.on("value", function(snap) {
+			var count = snap.numChildren();
+			console.log("DB image count: " + count);
+
+			if (count >= 16) {
+				console.log("show done");
+					$("#waiting").hide();
+					$("#done").show();
+			}
+		});
+		
 		$.ajax({
 			url : folder,
 			success: function (data) { //loop
@@ -40,18 +59,22 @@
 			$(data).find("a").attr("href", function (i, val) {
 				if( val.match(/\.(jpe?g|png|gif|JPG)$/) ) { 
 					$("#done").append( "<img src='"+ folder + val + "'>" );
-					//console.log("image count", i);
+					i = i + 1
+					console.log("Folder image count", i);
 				}
-				if (i >= 3){
+				/*
+				if (i >= 16){ //CHANGE TO DB CHECK
 					$("#waiting").hide();
 					$("#done").show();
 				}
+				*/
 
 			});
 
+
 			var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
 			//var votesForSilly = imgVotes.child('votesForSilly');
-				var voteName = 'VotesForDirty'; // Change this value for each voting page
+				var voteName = 'votesForDirty'; // Change this value for each voting page
 				var imageLocation;
 				var imgVotes;
 
@@ -85,7 +108,15 @@
 				//this limits the number of imgs you can highlight at a time
 				var $this = $(this);
 
-				$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
+				$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 3);
+
+				if ($('img.highlight').length == 3) {
+					console.log("Show link to next page:" + $('img.highlight').length)
+					$("#next").show();
+				} else {
+					console.log("Hide link to next page:" + $('img.highlight').length)
+					$("#next").hide();
+				}
 
 				//hightlight -- votes
 				var votesForDirty = imgVotes.child(voteName);
@@ -125,10 +156,6 @@
 
 	</style>
 
-	<p>	
-
-		<a href="Voting2.html">Submit Votes</a>
-	</p>
-</div>
+	</div>
 </body>
 </html>

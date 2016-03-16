@@ -32,27 +32,32 @@
 
 				var childData = childSnapshot.val();
 				// console.log(childData);
-				if (childData.VotesForLarge > largeVotes)
+
+				if (childData.votesForLarge > largeVotes)
 				{
-					largeVotes = childData.VotesForLarge;
+					console.log("Votes for Large set");
+					largeVotes = childData.votesForLarge;
 					largeImg = childData.filename;
 				}
 
-				if (childData.VotesForDirty > dirtyVotes)
+				if (childData.votesForDirty > dirtyVotes)
 				{
+					console.log("Votes for Dirty set");
 					dirtyVotes = childData.votesForDirty;
 					dirtyImg = childData.filename;
 				}
 
-				if (childData.VotesForUgly > uglyVotes)
+				if (childData.votesForUgly > uglyVotes)
 				{
-					uglyVotes = childData.VotesForUgly;
+					console.log("Votes for Ugly set");
+					uglyVotes = childData.votesForUgly;
 					uglyImg = childData.filename;
 				}
 				
-				if (childData.VotesForSoft > softVotes)
+				if (childData.votesForSoft > softVotes)
 				{
-					softVotes = childData.VotesForSoft;
+					console.log("Votes for Soft set");
+					softVotes = childData.votesForSoft;
 					softImg = childData.filename;
 				}
 

@@ -101,31 +101,31 @@
 		echo "<p>Your User Name is " . $_SESSION["userName"] . ".</p>";
 		echo "<p>Uploaded selfie saved as " . $name . ".</p>";
 		echo "<br><p><a href='uploader2.php'>Play!</a></p>";
-		} //Close ElseIf Tag 
+
 		?> 
 
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 
-  //save values to fb
-  //*** Todo: Figure out why this variable is not getting populated from inside of snapshot function. Must get userNames.set to wait for results from userCount.once
-  var nextPlayer = 0;
-  var userCount = new Firebase("https://incandescent-heat-4986.firebaseio.com/users");
-  var userNames = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/<?php echo $userName ?>");
+	  //save values to fb
+	  //*** Todo: Figure out why this variable is not getting populated from inside of snapshot function. Must get userNames.set to wait for results from userCount.once
+	  var nextPlayer = 0;
+	  var userCount = new Firebase("https://incandescent-heat-4986.firebaseio.com/users");
+	  var userNames = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/<?php echo $userName ?>");
 
-  userCount.once("value", function(snapshot) {
-  	nextPlayer = snapshot.numChildren() + 1;
-  	console.log("NP: " + nextPlayer);
+	  userCount.once("value", function(snapshot) {
+	  	nextPlayer = snapshot.numChildren() + 1;
+	  	console.log("NP: " + nextPlayer);
 
-  	userNames.set({
-  		selfieName: "<?php echo $name ?>",
-  		playernum: nextPlayer
-  	});
-  });
+	  	userNames.set({
+	  		selfieName: "<?php echo $name ?>",
+	  		playernum: nextPlayer
+	  	});
+	  });
 
 
 </script>
 
-
+<? 	} //Close ElseIf Tag  ?>
 </body>
 </html>

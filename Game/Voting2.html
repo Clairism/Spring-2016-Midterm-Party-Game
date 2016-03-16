@@ -8,9 +8,18 @@
 </head>
 
 <body>
-	<h1 id="title">Select 2 Large Objects</h1>
+
+	<h1 id="title">Select 3 Large Objects</h1>
+
+	<div id="next">
+	<p>	
+		<a id="vote3" href="Voting3.html">Submit vote</a>
+	</p>
+	</div>
 
 	<script type="text/javascript">
+
+		$("#next").hide();
 		//display imgs from folder url
 		//Move this search inside 
 		var folder = "uploads/";
@@ -72,7 +81,15 @@
 					//this limits the number of imgs you can highlight at a time
 					var $this = $(this);
 					
-					$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
+					$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 3);
+
+				if ($('img.highlight').length == 3) {
+					console.log("Show link to next page:" + $('img.highlight').length)
+					$("#next").show();
+				} else {
+					console.log("Hide link to next page:" + $('img.highlight').length)
+					$("#next").hide();
+				}
 
 					//pass $this into vote var
 					//console.log("VN:" + voteName);
@@ -111,9 +128,7 @@
 
 	</style>
 
-	<p>	
-		<a id="vote3" href="Voting3.html">Submit vote</a>
-	</p>
+</div>
 
 </body>
 </html>

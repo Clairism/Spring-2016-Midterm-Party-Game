@@ -8,10 +8,17 @@
 </head>
 
 <body>
-	<h1 id="title">Select 2 Ugly Objects</h1>
+	<h1 id="title">Select 3 Ugly Objects</h1>
+
+	<div id="next">
+	<p>	
+		<a id="vote4" href="Voting4.html">Submit votes</a>
+	</p>
+	</div>
 
 	<script type="text/javascript">
 		
+		$("#next").hide();
 		//display imgs from folder url
 		var folder = "uploads/";
 		console.log("snapshot");
@@ -66,7 +73,15 @@
 					//this limits the number of imgs you can highlight at a time
 					var $this = $(this);
 
-					$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
+					$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 3);
+
+				if ($('img.highlight').length == 3) {
+					console.log("Show link to next page:" + $('img.highlight').length)
+					$("#next").show();
+				} else {
+					console.log("Hide link to next page:" + $('img.highlight').length)
+					$("#next").hide();
+				}
 
 					//pass $this into vote var
 					console.log("VN:" + voteName);
@@ -105,9 +120,7 @@
 
 	</style>
 
-	<p>	
-		<a id="vote4" href="Voting4.html">Submit votes</a>
-	</p>
+	</div>
 
 </body>
 </html>

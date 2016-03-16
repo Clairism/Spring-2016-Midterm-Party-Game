@@ -9,11 +9,13 @@
 
 <body>
 	<div id="voting"> 
-		<h1 id="title">Select 2 Soft Objects</h1>
+		<h1 id="title">Select 3 Soft Objects</h1>
 
 		<button id="submitButton">Submit Votes</button>
 
 		<script type="text/javascript">
+
+		document.getElementById("submitButton").disabled = true;
 
 		//display imgs from folder
 		var folder = "uploads/";
@@ -69,7 +71,14 @@
 			//this limits the number of imgs you can highlight at a time
 			var $this = $(this);
 
-			$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 2);
+			$this.toggleClass('highlight', !$this.hasClass('highlight') && $('img.highlight').length < 3);
+
+				if ($('img.highlight').length == 3) {
+					console.log("if statement");
+					document.getElementById("submitButton").disabled = false;
+				} else {
+					document.getElementById("submitButton").disabled = true;
+				}
 
 			//pass $this into vote var
 			console.log("VN:" + voteName);
