@@ -98,14 +98,16 @@
 		chmod(UPLOAD_DIR . $name, 0644);
 
     //Attempt to display image
-		echo "<p>Your User Name is " . $_SESSION["userName"] . ".</p>";
+		if(!isset($_SESSION['userName'])){
+			echo "<p>Your User Name is " . $_SESSION["userName"] . ".</p>";
+		}
 		echo "<p>Uploaded selfie saved as " . $name . ".</p>";
 		echo "<br><p><a href='uploader2.php'>Play!</a></p>";
 
 		?> 
 
 
-	<script type="text/javascript">
+		<script type="text/javascript">
 
 	  //save values to fb
 	  //*** Todo: Figure out why this variable is not getting populated from inside of snapshot function. Must get userNames.set to wait for results from userCount.once
@@ -124,8 +126,8 @@
 	  });
 
 
-</script>
+	</script>
 
-<? 	} //Close ElseIf Tag  ?>
+	<? 	} //Close ElseIf Tag  ?>
 </body>
 </html>
