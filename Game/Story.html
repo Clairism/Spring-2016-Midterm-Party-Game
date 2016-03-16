@@ -18,8 +18,8 @@
 		var uglyImg = "";
 		var softImg = "";
 
+		//checking highest votes
 		images.once("value", function(snapshot){
-			//var mostSilly = "";	
 
 			var largeVotes = 0;
 			var dirtyVotes = 0;
@@ -31,7 +31,7 @@
 				//var key = childSnapshot.key();
 
 				var childData = childSnapshot.val();
-
+				// console.log(childData);
 				if (childData.VotesForLarge > largeVotes)
 				{
 					largeVotes = childData.VotesForLarge;
@@ -78,18 +78,90 @@
 
 			var soft = document.getElementById('soft');
 			soft.src = "uploads/" + softImg;
-
 		});
 
-		var playerSelfie1 = document.getElementById('playerSelfie1');
-		var playerSelfie2 = document.getElementById('playerSelfie2');
-		var playerSelfie3 = document.getElementById('playerSelfie3');
-		var playerSelfie4 = document.getElementById('playerSelfie4');
 
-		playerSelfie1.src = "selfies/" + largeImg;
-		playerSelfie2.src = "selfies/" + largeImg;
-		playerSelfie3.src = "selfies/" + largeImg;
-		playerSelfie4.src = "selfies/" + largeImg;
+	//get the selfie images
+	var users = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/");
+
+	//find player1
+	users.orderByChild("playernum").equalTo(1).on("child_added", function(snapshot){
+		//var ref = snapshot.ref();
+		var selfieParent = snapshot.key();
+		//console.log("selfie parent: " + selfieParent);
+		
+		var player1 = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/" + selfieParent);
+		
+		//get their selfie
+		player1.once("value", function(snapshot){
+			
+			var selfieLocation = snapshot.val().selfieName;
+			console.log("selfie Loc:" + selfieLocation);
+
+			//display selfies
+			var playerSelfie1 = document.getElementById('playerSelfie1');
+			playerSelfie1.src = "selfies/" + selfieLocation;
+
+		});
+	});
+
+	//find player2
+	users.orderByChild("playernum").equalTo(2).on("child_added", function(snapshot){
+
+		var selfieParent = snapshot.key();
+		
+		var player2 = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/" + selfieParent);
+		
+		//get their selfie
+		player2.once("value", function(snapshot){
+			
+			var selfieLocation = snapshot.val().selfieName;
+			console.log("selfie Loc:" + selfieLocation);
+
+			//display selfies
+			var playerSelfie2 = document.getElementById('playerSelfie2');
+			playerSelfie2.src = "selfies/" + selfieLocation;
+		});
+	});
+
+	//player3
+	users.orderByChild("playernum").equalTo(3).on("child_added", function(snapshot){
+
+		var selfieParent = snapshot.key();
+
+		var player3 = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/" + selfieParent);
+
+		//get their selfie
+		player3.once("value", function(snapshot){
+			
+			var selfieLocation = snapshot.val().selfieName;
+			console.log("selfie Loc:" + selfieLocation);
+
+			//display selfies
+			var playerSelfie3 = document.getElementById('playerSelfie3');
+			playerSelfie3.src = "selfies/" + selfieLocation;
+		});
+	});
+
+
+	//player4
+	users.orderByChild("playernum").equalTo(4).on("child_added", function(snapshot){
+
+		var selfieParent = snapshot.key();
+
+		var player4 = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/" + selfieParent);
+
+		//get their selfie
+		player4.once("value", function(snapshot){
+			
+			var selfieLocation = snapshot.val().selfieName;
+			console.log("selfie Loc:" + selfieLocation);
+
+			//display selfies
+			var playerSelfie4 = document.getElementById('playerSelfie4');
+			playerSelfie4.src = "selfies/" + selfieLocation;
+		});
+	});
 
 </script>
 
@@ -115,7 +187,6 @@
 <p>
 
 	<!-- (dirty obj) -->
-	<!-- <img src="uploads/soft.jpeg">  -->
 	<img id="playerSelfie1">'s birthday party was a disaster.<br />
 	It stated going downhill when <img id="playerSelfie2"> arrived, bringing a <img id="dirty"> as his/her gift. <br />
 
