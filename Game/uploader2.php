@@ -10,7 +10,7 @@
 </head>
 
 <body>
-
+<h1 id="titleheader">Take or load ...</h1>
 <?php
 define("UPLOAD_DIR", "uploads/");
 
@@ -20,21 +20,58 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 ?>
 <em>Only GIF, JPG, and PNG files are allowed.</em>
 <form action="uploader2.php" method="post" enctype="multipart/form-data">
- <input type="file" name="myFile"/>
+ <input type="file" class="styled-button" name="myFile"/>
  <br/>
-  <input type="file" name="myFile2"/>
+  <input type="file" class="styled-button" name="myFile2"/>
  <br/>
-  <input type="file" name="myFile3"/>
+  <input type="file" class="styled-button" name="myFile3"/>
  <br/>
-  <input type="file" name="myFile4"/>
+  <input type="file" class="styled-button" name="myFile4"/>
  <br/>
 <!--   <input type="file" name="myFile5"/>
  <br/>
   <input type="file" name="myFile6"/>
  <br/> -->
- <input type="submit" value="Upload"/>
+ <input type="submit" class="styled-button" value="Upload"/>
 
 </form>
+ <script type="text/javascript">
+
+            //get Story Key and use it to populate the title and header
+        var StoryKey = new Firebase("https://incandescent-heat-4986.firebaseio.com/storykey/")
+
+        var SK = 0;
+        var storyVoteTitle = "";
+        var storyVoteHeader = "";
+
+        //Find way to delay page display until this completes?
+        StoryKey.once("value", function(snapshot){
+
+        SK = snapshot.val();
+        console.log("SK = " + SK);
+
+        if (SK == 1) {
+            storyVoteTitle = 'Upload your photos';
+            storyVoteHeader = 'Take or load photos from your gallery of different objects!';
+        }
+        if (SK == 2) {
+            storyVoteTitle = 'Upload your photos';
+            storyVoteHeader = 'Take or load photos from your gallery. Include 2 pictures of objects, 1 of an action or activity, and 1 of a reaction or emotion.';  
+        }
+        if (SK == 3) {
+            storyVoteTitle = 'Upload your photos';
+            storyVoteHeader = 'Take or load photos from your gallery. Include 2 objects, 1 of a place, and 1 of a living creature.';
+        }
+
+        console.log("storyVoteTitle: " + storyVoteTitle);
+        console.log("storyVoteHeader: " + storyVoteHeader);
+
+        //Change HTML Display based on Story
+        document.title = storyVoteTitle;
+
+        document.getElementById("titleheader").innerHTML = storyVoteHeader;
+        });
+        </script>
 <?php
 }
 
@@ -245,6 +282,8 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" ) { //&& !empty($_FILES["myFile"])
     ?>
     <script type="text/javascript">
 
+
+
     var ref = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
 
     //*** Todo: Replace "player1" with userName from cookie
@@ -269,7 +308,7 @@ else if ($_SERVER["REQUEST_METHOD"] == "POST" ) { //&& !empty($_FILES["myFile"])
         <?php echo $userName ?>_image4: {
         filename: "<?php echo $name4 ?>",
         player: "<?php echo $userName ?>"
-            },
+            }
         // <?php echo $userName ?>_image5: {
         // filename: "<?php echo $name5 ?>",
         // player: "<?php echo $userName ?>"

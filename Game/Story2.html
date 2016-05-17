@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+
+
+</head>
+<body>
+
+<h1>One Day</h1>
+
+<style type="text/css">
+
+	img {
+		position: relative;
+		vertical-align: text-bottom;
+		/*margin-bottom: 100px;*/
+		max-width: 350px;
+		max-height: 500px;
+		padding-bottom: 30px;
+		z-index: 1;
+
+	}
+
+	.TextWrap{
+		position: relative;
+		float: left;
+		margin: 20px;
+
+	}
+
+</style>
+
+<p>
+	<img id="playerSelfie1"> <br />was<br /> 
+	<img id="image1"><!--action--> 
+	 <br />
+	 when
+	 <br/>
+	<img id="playerSelfie2">
+	<br/>
+	slapped them with a <br />
+	<img id="image2"><!--object--><br />
+</p>
+<p>
+	<img id="playerSelfie1"> <br />was<br /> 
+	<img id="image3"><!--reaction--><br />
+</p>
+
+<p>		
+	<div class="dyntext" id="dyn1">[dynamic1]</div>
+	<br />
+	<img id="playerSelfie3"><br />
+	and told them what had happened.
+</p>
+
+<p>
+	<img id="playerSelfie3"><br />
+	<div class="dyntext" id="dyn2">[dynamic2]</div>
+	<br />
+	<img id="image4"><!--object--><br /> 
+	from the local dealer,<br />
+	<img id="playerSelfie4"><br />
+
+
+</p>
+<p>
+
+</p>
+
+
+
+	<script type="text/javascript">
+
+		var images = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/")
+
+		var img1 = ""; //was largeImg, swapped with Dirty? | Represents Dirty for Story 1
+		var img2 = ""; //was dirtyImg, swapped with Large? | Represents Large for Story 1
+		var img3 = ""; //was uglyImg | Represents Ugly for Story 1
+		var img4 = ""; //was softImg | Represents Soft for Story 1
+
+		//checking highest votes
+		images.once("value", function(snapshot){
+
+			var votes1 = 0; //was largeVotes | Represents Dirty for Story 1
+			var votes2 = 0; //was dirtyVotes | Represents Large for Story 1
+			var votes3 = 0; //was uglyVotes  | Represents Ugly for Story 1
+			var votes4 = 0; //was softVotes  | Represents Soft for Story 1
+
+			snapshot.forEach(function(childSnapshot){
+
+				//var key = childSnapshot.key();
+
+				var childData = childSnapshot.val();
+				// console.log(childData);
+
+				if (childData.votesFor1 > votes1) //was votesForDirty
+				{
+					console.log("Votes for Image 1 set (dirty)");
+					votes1 = childData.votes1;
+					img1 = childData.filename;
+				}
+
+				if (childData.votesFor2 > votes2) // was votesForLarge
+				{
+					console.log("Votes for Image 2 set (large)");
+					votes2 = childData.votesFor2;
+					img2 = childData.filename;
+				}
+
+				if (childData.votesFor3 > votes3) //was votesForUgly
+				{
+					console.log("Votes for Image 3 set (ugly)");
+					votes3 = childData.votesFor3;
+					img3 = childData.filename;
+				}
+				
+				if (childData.votesFor4 > votes4) //was votesForSoft
+				{
+					console.log("Votes for Image 4 set (soft)");
+					votes4 = childData.votesFor4;
+					img4 = childData.filename;
+				}
+
+
+			});
+
+			console.log(img1, img2, img3, img4);
+			console.log("votes1 (dirty):" + votes1); //was Large, now swapped with Dirty
+			console.log("votes2 (large):" + votes2); //was Dirty, now swapped with Large			
+			console.log("votes3 (ugly):" + votes3);
+			console.log("votes4 (soft):" + votes4);
+
+
+
+			//console.log("uglyVotes:" + uglyVotes);
+
+			var image1 = document.getElementById('image1'); //dirty
+			image1.src = "uploads/" + img1;
+
+			var image2 = document.getElementById('image2'); //large
+			image2.src = "uploads/" + img2;
+			//console.log(large.src);
+
+			var image3 = document.getElementById('image3'); //ugly
+			image3.src = "uploads/" + img3;
+
+			var image4 = document.getElementById('image4'); //soft
+			image4.src = "uploads/" + img4;
+		});
+
+
+	//get the selfie images
+	var users = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/");
+
+	//find player1
+	users.orderByChild("playernum").equalTo(1).on("child_added", function(snapshot){
+		//var ref = snapshot.ref();
+		var selfieParent = snapshot.key();
+		//console.log("selfie parent: " + selfieParent);
+		
+		var player1 = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/" + selfieParent);
+		
+		//get their selfie
+		player1.once("value", function(snapshot){
+			
+			var selfieLocation = snapshot.val().selfieName;
+			console.log("selfie Loc:" + selfieLocation);
+
+			//display selfies
+			var playerSelfie1 = document.getElementById('playerSelfie1');
+			playerSelfie1.src = "selfies/" + selfieLocation;
+
+			var playerSelfie1_2 = document.getElementById('playerSelfie1_2');playerSelfie1_2.src = "selfies/" + selfieLocation;
+
+			var playerSelfie1_3 = document.getElementById('playerSelfie1_3'); playerSelfie1_3.src = "selfies/" + selfieLocation;
+
+			var playerSelfie1_4 = document.getElementById('playerSelfie1_4'); playerSelfie1_4.src = "selfies/" + selfieLocation;
+
+		});
+	});
+
+	//find player2
+	users.orderByChild("playernum").equalTo(2).on("child_added", function(snapshot){
+
+		var selfieParent = snapshot.key();
+		
+		var player2 = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/" + selfieParent);
+		
+		//get their selfie
+		player2.once("value", function(snapshot){
+			
+			var selfieLocation = snapshot.val().selfieName;
+			console.log("selfie Loc:" + selfieLocation);
+
+			//display selfies
+			var playerSelfie2 = document.getElementById('playerSelfie2');
+			playerSelfie2.src = "selfies/" + selfieLocation;
+		});
+	});
+
+	//player3
+	users.orderByChild("playernum").equalTo(3).on("child_added", function(snapshot){
+
+		var selfieParent = snapshot.key();
+
+		var player3 = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/" + selfieParent);
+
+		//get their selfie
+		player3.once("value", function(snapshot){
+			
+			var selfieLocation = snapshot.val().selfieName;
+			console.log("selfie Loc:" + selfieLocation);
+
+			//display selfies
+			var playerSelfie3 = document.getElementById('playerSelfie3');
+			playerSelfie3.src = "selfies/" + selfieLocation;
+		});
+	});
+
+
+	//player4
+	users.orderByChild("playernum").equalTo(4).on("child_added", function(snapshot){
+
+		var selfieParent = snapshot.key();
+
+		var player4 = new Firebase("https://incandescent-heat-4986.firebaseio.com/users/" + selfieParent);
+
+		//get their selfie
+		player4.once("value", function(snapshot){
+			
+			var selfieLocation = snapshot.val().selfieName;
+			console.log("selfie Loc:" + selfieLocation);
+
+			//display selfies
+			var playerSelfie4 = document.getElementById('playerSelfie4');
+			playerSelfie4.src = "selfies/" + selfieLocation;
+		});
+	});
+
+	//Insert variable words/phrases here, use randomizer to select
+	var randword = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+	var story1dyn1 = '';
+	var story1dyn2 = '';
+	var story1dyn3 = '';
+	console.log("randword: " + randword);
+	if (randword == 1){
+		story1dyn1 = 'It started going downhill when';
+		story1dyn2 = 'at the stereo, completely destroying both.';
+		story1dyn3 = 'and cried.';
+	}
+	if (randword == 2){
+		story1dyn1 = 'It started going awry when';
+		story1dyn2 = 'at the moon, completely destroying both.';
+		story1dyn3 = 'and choked on their own spit.';
+	}
+	if (randword == 3){
+		story1dyn1 = 'It started going to shit when';
+		story1dyn2 = 'at the nearest goat, completely destroying both.';
+		story1dyn3 = 'and quietly prayed for the End of Days.';
+	}
+
+	//console.log("story1stereo: " + story1dyn2);
+	//document.getElementById("dyn2").InnerHTML = story1dyn2;
+
+	var dynamicString1 = document.getElementById("dyn1");
+	dynamicString1.innerHTML = story1dyn1;
+
+	var dynamicString2 = document.getElementById("dyn2");
+	dynamicString2.innerHTML = story1dyn2;
+
+	var dynamicString3 = document.getElementById("dyn3");
+	dynamicString3.innerHTML = story1dyn3;
+
+</script>
+
+
+</body>
+</html>

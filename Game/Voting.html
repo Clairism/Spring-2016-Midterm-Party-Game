@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Voting for Dirtiest Object</title>
+	<title>Voting for...</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
@@ -10,7 +10,8 @@
 
 <body>
 	<div id="waiting"> 
-		<h1 id="title">Waiting for players to upload...</h1>
+		<h1 id="titlestory">Get ready for Story</h1>
+		<h1>Waiting for players to upload...</h1>
 	</div>
 
 	<div id="next">
@@ -21,17 +22,54 @@
 
 	<div id="done">
 
-		<h1 id="title">Select 3 Dirty Objects</h1>
+		<h1 id="titleheader">Select 3 Objects</h1>
 
 		<script type="text/javascript">
 
 			$("#done").hide();
 			$("#next").hide();
 
+		//get Story Key and use it to populate the title and header
+		var StoryKey = new Firebase("https://incandescent-heat-4986.firebaseio.com/storykey/")
+
+		var SK = 0;
+		var storyVoteTitle = "";
+		var storyVoteHeader = "";
+
+		//Find way to delay page display until this completes?
+		StoryKey.once("value", function(snapshot){
+
+		SK = snapshot.val();
+		console.log("SK = " + SK);
+
+
+		if (SK == 1) {
+			storyVoteTitle = 'Dirtiest';
+			storyVoteHeader = 'Select 3 dirty objects';
+		}
+		if (SK == 2) {
+			storyVoteTitle = 'action';
+			storyVoteHeader = 'Select an action';	
+		}
+		if (SK == 3) {
+			storyVoteTitle = 'Place';
+			storyVoteHeader = 'Select a scary place';
+		}
+
+		console.log("storyVoteTitle: " + storyVoteTitle);
+		console.log("storyVoteHeader: " + storyVoteHeader);
+
+		//Change HTML Display based on Story
+		document.title = "Voting for " + storyVoteTitle;
+
+		document.getElementById("titlestory").innerHTML = "Get ready for Story " + SK;
+		document.getElementById("titleheader").innerHTML = storyVoteHeader;
+		});
+
 		//imgs parent
 		var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/")
 		var i = 0;
-		var voteName = 'votesForDirty'; // Change this value for each voting page
+		var voteName = 'votesFor1'; // Change this value for each voting page (Was votesForDirty)
 		var imageLocation;
 		var imgVotes;
 
@@ -74,7 +112,7 @@
 
 			var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
 			//var votesForSilly = imgVotes.child('votesForSilly');
-				var voteName = 'votesForDirty'; // Change this value for each voting page
+				var voteName = 'votesFor1'; // Change this value for each voting page (was votesForDirty)
 				var imageLocation;
 				var imgVotes;
 
@@ -119,15 +157,16 @@
 				}
 
 				//hightlight -- votes
-				var votesForDirty = imgVotes.child(voteName);
+				//was votesForDirty
+				var votesFor1 = imgVotes.child(voteName);
 
 				if ( $(this).hasClass('highlight') ) {
 
-					votesForDirty.transaction(function (current_value) {
+					votesFor1.transaction(function (current_value) {
 						return (current_value || 0) + 1;
 					});
 				}else{
-					votesForDirty.transaction(function (current_value) {
+					votesFor1.transaction(function (current_value) {
 						if(current_value <= 0){
 							return current_value = 0;
 							//votesForDirty.child('$(this).attr('src')').remove();

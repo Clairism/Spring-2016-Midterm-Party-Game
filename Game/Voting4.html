@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Voting for Softest Object</title>
+	<title>Voting for...</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
@@ -9,13 +9,51 @@
 
 <body>
 	<div id="voting"> 
-		<h1 id="title">Select 3 Soft Objects</h1>
+		<h1 id="titleheader">Select 3 Objects</h1>
 
-		<button id="submitButton">Submit Votes</button>
+		<button class="styled-button" id="submitButton">Submit Votes</button>
 
 		<script type="text/javascript">
 
 		document.getElementById("submitButton").disabled = true;
+
+		//get Story Key and use it to populate the title and header
+		var StoryKey = new Firebase("https://incandescent-heat-4986.firebaseio.com/storykey/")
+
+		var SK = 0;
+		var storyVoteTitle = "";
+		var storyVoteHeader = "";
+
+		//Find way to delay page display until this completes?
+		StoryKey.once("value", function(snapshot){
+
+		SK = snapshot.val();
+		console.log("SK = " + SK);
+
+		if (SK == 1) {
+			storyVoteTitle = 'Softest';
+			storyVoteHeader = 'Select a soft object';
+		}
+		if (SK == 2) {
+			storyVoteTitle = 'Delicious';
+			storyVoteHeader = 'Select something appetizing';	
+		}
+		if (SK == 3) {
+			storyVoteTitle = 'Creature';
+			storyVoteHeader = 'Select a scary creature';
+		}
+
+		console.log("storyVoteTitle: " + storyVoteTitle);
+		console.log("storyVoteHeader: " + storyVoteHeader);
+
+		//Change HTML Display based on Story
+		document.title = "Voting for " + storyVoteTitle;
+
+		document.getElementById("titleheader").innerHTML = storyVoteHeader;
+
+		//Change link to route to correct story page
+		document.getElementById("storylink").href = "Story" + SK + ".html";
+		});
 
 		//display imgs from folder
 		var folder = "uploads/";
@@ -38,7 +76,7 @@
 
 				var clickedImg = new Firebase("https://incandescent-heat-4986.firebaseio.com/images/");
 
-				var voteName = 'votesForSoft'; // Change this value for each voting page
+				var voteName = 'votesFor4'; // Change this value for each voting page (was votesForSoft)
 				var imageLocation;
 				var imgVotes;
 				//img click event
@@ -82,15 +120,16 @@
 
 			//pass $this into vote var
 			console.log("VN:" + voteName);
-			var votesForSoft = imgVotes.child(voteName);
+			//was votesForSoft
+			var votesFor4 = imgVotes.child(voteName);
 
 			//hightlight -- votes
 			if ( $(this).hasClass('highlight') ) {
-				votesForSoft.transaction(function (current_value) {
+				votesFor4.transaction(function (current_value) {
 					return (current_value || 0) + 1;
 				});
 			}else{
-				votesForSoft.transaction(function (current_value) {
+				votesFor4.transaction(function (current_value) {
 					if(current_value <= 0){
 						return current_value = 0;
 					}else{
@@ -161,8 +200,8 @@
 
 	</script>
 
-	<h2 id="waitMessage">Please wait while all players finish voting
-	</h2>
+	<h1 id="waitMessage">Please wait while all players finish voting!
+	</h1>
 </div>
 
 <div id="voteFinished">
@@ -172,7 +211,8 @@
 	</script>
 
 	<p>
-		<a href="Story.html">Your story is ready!</a>
+		<a id="storylink" href="">Your story is ready!</a>
+		<!--use SK to populate number of story page from JavaScript-->
 	</p>
 </div>
 </body>

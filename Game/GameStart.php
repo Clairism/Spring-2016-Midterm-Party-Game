@@ -9,7 +9,16 @@
 
 </head>
 <body>
-	<h1>Welcome to Mad Pic!</h1>
+<style>
+p{
+	color: rgb(0,200,255);
+	font-size: 20px;
+}
+</style>
+	<h1>Welcome to Mad Pics!</h1>
+	<p>A madlibs game with pictures!</p>
+		<h2>--by Claire Hu and Christina Goefron</h2>
+
 
 	<?php
 	define("UPLOAD_DIR", "selfies/");
@@ -21,21 +30,22 @@
 		<?php 
 		if( isset($_SESSION['userName']))
 		{
-			echo 'Welcome Back '.$_SESSION['userName'].'<br />';
+			echo '<h1>Welcome Back '.$_SESSION['userName'].'!<br /></h1>';
+			echo '<p>Select a new selfie:<br /></p>'; 
 
 		}
 		else
 		{
 			?>
-			Please enter your username <br />
-			<input type="text" name="username" value="<?php echo ($_SESSION['userName']!='' ? $_SESSION['userName'] : ''); ?>" placeholder="Type in your User Name" />
+			Enter your name <br />
+			<input type="text" class="styled-button" name="username" value="<?php echo ($_SESSION['userName']!='' ? $_SESSION['userName'] : ''); ?>" placeholder="Type in your User Name" />
 			<?php 
 		}
 		?>
-		
-		<input type="file" name="selfie"/>
 		<br/>
-		<input type="submit" value="Upload"/>
+		<input type="file" class="styled-button" name="selfie"/>
+		<br/><br/>
+		<input type="submit" class="styled-button" value="Upload"/>
 	</form>
 
 	<?php
@@ -119,7 +129,7 @@
 	  	nextPlayer = snapshot.numChildren() + 1;
 	  	console.log("NP: " + nextPlayer);
 
-	  	userNames.set({
+	  	userNames.update({
 	  		selfieName: "<?php echo $name ?>",
 	  		playernum: nextPlayer
 	  	});
